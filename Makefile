@@ -34,30 +34,22 @@ NAME = minishell
 
 ######## Directories ########
 
-SRC_DIR := ./src
-OBJ_DIR = ./obj
+SRC_DIR = ./
 
-######## Sources in each subdirectories ########
-
-SRC_SUBDIRS := $(wildcard $(SRC_DIR)/*/)
-SRCS_SUBDIR_FILES := $(foreach dir,$(SRC_SUBDIRS),$(wildcard $(dir)*.cpp))
-
-######## Sources in the main directorie ########
-
-SRCS_MAIN_DIR_FILES := $(wildcard $(SRC_DIR)/*.cpp)
+FILES = \
+			main \
+			src/mini_hell \
+			src/utils/ft_split \
+			src/utils/utils\
 
 
-######## All sources joined together ########
-
-SRCS := $(SRCS_SUBDIR_FILES) $(SRCS_MAIN_DIR_FILES)
-		
-######## objects : make sure that every %.c files have their corresponding .o files ######## 
-OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
+SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))
+OBJS = $(addprefix $(O_DIR), $(addsuffix .o, $(FILES)))
 
 ######## Compiler and flags ########
 
-CPP := cc
-CFLAGS = -Wall -Wextra -Werror -I ./include
+CC := cc 
+CFLAGS = -Wall -Wextra -Werror 
 
 ######## first rule called by make ########
 
@@ -66,25 +58,14 @@ all : $(NAME)
 ######## creating the executable ########
 $(NAME): $(OBJS) 
 	@echo $(RED)Start compiling $(YEL)$(NAME) $(RST)
-	@$(CPP) $(OBJS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(SRCS) -lreadline -o $(NAME)
 	@echo $(GRN)Completed $(RST)
-
-######## creating the objects files based on the c files and make sure the OBJ dir exist before creating them########
-$(OBJ_DIR)/%.o: ./src/%.cpp 
-	@mkdir -p $(dir $@)
-	@echo $(RED)Compiling $(CYN) $< $(RST)
-	@$(CPP) $(CFLAGS) -c $< -o $@
-	@echo $(GRN)Completed $(RST)
-
-
 
 ######## create the object dir if it doesn't exist ######## 
 
-
-
 clean : 
-	@echo $(RED)removing the dir $(MAG)$(OBJ_DIR)
-	@rm -rf  $(OBJ_DIR)
+	@echo $(RED)removing the object files $(MAG)$(OBJ_DIR)
+	@rm -f $(OBJS)
 	@echo $(GRN)completed $(RST)
 
 ######## same clean + removing the libprintf.h ######## 
@@ -95,7 +76,3 @@ fclean : clean
 	@echo $(GRN)completed $(RST)
 	
 re : fclean all
-
-
-
-# remember to use  -->>>    -lreadline	!!!!
