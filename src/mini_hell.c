@@ -14,9 +14,11 @@
 
 void mini_hell(t_mini_shell mini_shell)
 {
-	int i = 0;
+	int i;
+
 	while (1)
 	{
+		i = 0;
 		mini_shell.input = readline("Enter a line: ");
 		printf("the string is %s\n", mini_shell.input);
 		mini_shell.parsed_input = ft_split(mini_shell.input, ' ');// need to adjust for min_shell
@@ -28,7 +30,8 @@ void mini_hell(t_mini_shell mini_shell)
 		}
 		if (mini_shell.parsed_input[0] && (ft_strncmp(mini_shell.parsed_input[0] , "exit", 6) == 0))
 		{
-			printf("i exit the program now\n");
+			free_struct(mini_shell);
+			printf("I exit the program now\n");
 			exit (0);
 		}
 		free_struct(mini_shell);

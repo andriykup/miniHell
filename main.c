@@ -13,8 +13,10 @@
 #include "include/mini_hell.h"
 int main()
 {
-	int i = 0;//test
 	t_mini_shell mini_shell;
+
+	mini_shell.input = NULL;
+	mini_shell.parsed_input = NULL;
 
 	mini_hell(mini_shell);
     return (0);
