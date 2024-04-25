@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/04/25 12:41:31 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:45:29 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ typedef struct s_mini_shell
 } t_mini_shell;
 
 void free_struct(t_mini_shell mini_shell);
+char	**ft_split(char const *s, char c);
 
 #endif
