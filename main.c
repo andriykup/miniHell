@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:04:38 by ankupins          #+#    #+#             */
-/*   Updated: 2024/04/25 12:29:16 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:41:17 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,4 @@ void free_struct(t_mini_shell mini_shell)
 {
 	if (mini_shell.input)
 		free (mini_shell.input);
-}
-void user_input()
-{
-
 }
