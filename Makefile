@@ -6,7 +6,7 @@
 #    By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/25 11:24:23 by aconvent          #+#    #+#              #
-#    Updated: 2024/04/25 11:24:29 by aconvent         ###   ########.fr        #
+#    Updated: 2024/04/25 12:28:58 by aconvent         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ UNL = "\033[4m"
 
 ######## Static lib Name ########
 
-NAME = phonebook
+NAME = minishell
 
 ######## Directories ########
 
@@ -95,3 +95,7 @@ fclean : clean
 	@echo $(GRN)completed $(RST)
 	
 re : fclean all
+
+
+
+# remember to use  -->>>    -lreadline	!!!!
