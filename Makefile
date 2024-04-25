@@ -41,6 +41,7 @@ FILES = \
 			src/mini_hell \
 			src/utils/ft_split \
 			src/utils/utils\
+			src/error \
 
 
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))

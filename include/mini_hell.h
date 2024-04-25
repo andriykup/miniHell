@@ -27,9 +27,14 @@ typedef struct s_mini_shell
     char **parsed_input;
 } t_mini_shell;
 
-void free_struct(t_mini_shell mini_shell);
+void mini_hell(t_mini_shell mini_shell);
 char	**ft_split(char const *s, char c);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
-void mini_hell(t_mini_shell mini_shell);
+
+// free functions
+void free_struct(t_mini_shell mini_shell);
+
+// error handling functions
+void error(int error_code, t_mini_shell mini_shell);
 
 #endif
