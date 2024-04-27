@@ -44,6 +44,7 @@ FILES = \
 			src/error \
 			src/commands/echo \
 			src/commands/pwd \
+			src/commands/cd \
 
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))
 OBJS = $(addprefix $(O_DIR), $(addsuffix .o, $(FILES)))

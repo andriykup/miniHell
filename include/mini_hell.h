@@ -35,6 +35,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n);
 // commands
 int com_echo(char *str, int com_option);
 char *com_pwd(void);
+char *com_cd(void);
 
 // free functions
 void free_struct(t_mini_shell mini_shell);
