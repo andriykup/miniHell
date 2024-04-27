@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <readline/readline.h>
+#include <linux/limits.h>
 
 typedef struct s_mini_shell
 {
@@ -33,7 +34,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n);
 
 // commands
 int com_echo(char *str, int com_option);
-
+char *com_pwd(void);
 
 // free functions
 void free_struct(t_mini_shell mini_shell);
