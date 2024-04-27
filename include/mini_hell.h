@@ -31,6 +31,10 @@ void mini_hell(t_mini_shell mini_shell);
 char	**ft_split(char const *s, char c);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 
+// commands
+int com_echo(char *str, int com_option);
+
+
 // free functions
 void free_struct(t_mini_shell mini_shell);
 

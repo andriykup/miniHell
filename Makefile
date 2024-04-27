@@ -42,6 +42,7 @@ FILES = \
 			src/utils/ft_split \
 			src/utils/utils\
 			src/error \
+			src/commands/echo \
 
 
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))

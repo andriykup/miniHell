@@ -24,7 +24,7 @@ void mini_hell(t_mini_shell mini_shell)
 		mini_shell.parsed_input = ft_split(mini_shell.input, ' ');// need to adjust for min_shell
 		while (mini_shell.parsed_input[i] != NULL)
 		{
-
+			//what if empty???
 			printf("%s\n", mini_shell.parsed_input[i]);
 			i++;
 		}
