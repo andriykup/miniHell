@@ -1,39 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ankupins <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/27 16:55:05 by ankupins          #+#    #+#             */
-/*   Updated: 2024/04/27 16:55:07 by ankupins         ###   ########.fr       */
+/*   Created: 2024/04/28 12:00:54 by ankupins          #+#    #+#             */
+/*   Updated: 2024/04/28 12:00:57 by ankupins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_hell.h"
 
-char *com_cd(void)
+
+char *com_unset(t_com_export *head, char *env)
 {
-    //adapt it to use com_pwd here !!!!
-    char *pwd; 
+    // remove an environment variable so that it's no longer accessible, use unset with the variable name.
+    // unset MY_VAR  # Removes MY_VAR from the environment
 
-    pwd = malloc(sizeof(char) * PATH_MAX);
-    pwd = getcwd(pwd, PATH_MAX);
-    printf("%s\n", pwd);
+    
+    // find_env_var() will be useful to check if env_var already exist
 
-    chdir("/home/ankupins/");
-
-    pwd = getcwd(pwd, PATH_MAX);
-    printf("%s\n", pwd);
-
-
-    free(pwd); //what if we need to return it???
-    return (0);
 }
-
-
-// int main()
-// {
-//     com_cd();
-//     return 0;
-// }

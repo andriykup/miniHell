@@ -22,25 +22,37 @@
 #include <readline/readline.h>
 #include <linux/limits.h>
 
+//main struct
 typedef struct s_mini_shell
 {
-    char *input;
-    char **parsed_input;
+	char	*input;
+	char	**parsed_input;
 } t_mini_shell;
 
-void mini_hell(t_mini_shell mini_shell);
+//struct for 'export' command
+typedef struct s_com_export
+{
+	char				*key;
+	char				*value;
+	struct s_com_export	*next;
+} t_com_export;
+
+
+void	mini_hell(t_mini_shell mini_shell);
+
+//utils folder
 char	**ft_split(char const *s, char c);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 // commands
-int com_echo(char *str, int com_option);
-char *com_pwd(void);
-char *com_cd(void);
+int		com_echo(char *str, int com_option);
+char	*com_pwd(void);
+char	*com_cd(void);
 
 // free functions
-void free_struct(t_mini_shell mini_shell);
+void	free_struct(t_mini_shell mini_shell);
 
 // error handling functions
-void error(int error_code, t_mini_shell mini_shell);
+void	error(int error_code, t_mini_shell mini_shell);
 
 #endif

@@ -1,39 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ankupins <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/27 16:55:05 by ankupins          #+#    #+#             */
-/*   Updated: 2024/04/27 16:55:07 by ankupins         ###   ########.fr       */
+/*   Created: 2024/04/28 11:30:53 by ankupins          #+#    #+#             */
+/*   Updated: 2024/04/28 11:30:55 by ankupins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_hell.h"
 
-char *com_cd(void)
+char *com_export(t_com_export *head, char *env)
 {
-    //adapt it to use com_pwd here !!!!
-    char *pwd; 
-
-    pwd = malloc(sizeof(char) * PATH_MAX);
-    pwd = getcwd(pwd, PATH_MAX);
-    printf("%s\n", pwd);
-
-    chdir("/home/ankupins/");
-
-    pwd = getcwd(pwd, PATH_MAX);
-    printf("%s\n", pwd);
-
-
-    free(pwd); //what if we need to return it???
-    return (0);
+    //  set environment variables and make them available to child processes
+    //  To set an environment variable and make it available to subprocesses, use the export
+    //  export MY_VAR="Hello, World!" 
 }
+// --->    getenv - is allowed
+// find_env_var() will be useful to check if env_var already exist
 
 
-// int main()
-// {
-//     com_cd();
-//     return 0;
-// }
+int main()
+{
+
+
+    return 0;
+}
