@@ -13,7 +13,7 @@
 #include "../../include/mini_hell.h"
 
 
-char *com_unset(t_com_export *head, char *env)
+char *com_unset(t_env *head, char *env)
 {
     // remove an environment variable so that it's no longer accessible, use unset with the variable name.
     // unset MY_VAR  # Removes MY_VAR from the environment

@@ -14,6 +14,10 @@
 
 void com_env(t_env *head)
 {
-    // Running the env command without any arguments displays 
-    // the current environment variables in your shell session. Each line represents a variable in the format KEY=VALUE.
+    t_env *current = head;
+
+    while (current != NULL) {
+        printf("%s=%s\n", current->key, current->value);
+        current = current->next;
+    }
 }

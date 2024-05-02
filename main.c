@@ -14,7 +14,11 @@
 int main()
 {
 	t_mini_shell mini_shell;
-	
+    //t_env *my_env;
+	//extern char **environ;
+
+ 	//my_env = NULL;
+   //set_my_env(environ, &my_env);
 
 	mini_shell.input = NULL;
 	mini_shell.parsed_input = NULL;

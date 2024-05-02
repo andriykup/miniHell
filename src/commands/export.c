@@ -108,10 +108,6 @@ int main()
     my_env = NULL;
     set_my_env(environ, &my_env);
 
-    printf("%s\n%s", my_env->key, my_env->value);
-    printf("\n%s\n%s", my_env->next->key, my_env->next->value);
-    printf("\n%s\n%s", my_env->next->next->key, my_env->next->next->value);
-
     t_env *current = my_env;
     while (current != NULL) {
         printf("%s=%s\n", current->key, current->value);

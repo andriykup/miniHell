@@ -45,7 +45,7 @@ FILES = \
 			src/commands/echo \
 			src/commands/pwd \
 			src/commands/cd \
-			src/commands/export \
+#			src/commands/export \
 #			src/commands/unset \
 #			src/commands/env \
 #			src/commands/exit \
