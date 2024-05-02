@@ -46,9 +46,9 @@ FILES = \
 			src/commands/pwd \
 			src/commands/cd \
 			src/commands/export \
-			src/commands/unset \
-			src/commands/env \
-			src/commands/exit \
+#			src/commands/unset \
+#			src/commands/env \
+#			src/commands/exit \
 
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))
 OBJS = $(addprefix $(O_DIR), $(addsuffix .o, $(FILES)))
@@ -56,7 +56,7 @@ OBJS = $(addprefix $(O_DIR), $(addsuffix .o, $(FILES)))
 ######## Compiler and flags ########
 
 CC := cc 
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = # -Wall -Wextra -Werror            !!!!!!!!!!!!!!!
 
 ######## first rule called by make ########
 

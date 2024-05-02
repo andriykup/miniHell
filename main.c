@@ -14,6 +14,7 @@
 int main()
 {
 	t_mini_shell mini_shell;
+	
 
 	mini_shell.input = NULL;
 	mini_shell.parsed_input = NULL;
@@ -21,6 +22,11 @@ int main()
 	mini_hell(mini_shell);
     return (0);
 }
+
+
+
+// extra functions
+
 
 
 void free_struct(t_mini_shell mini_shell)

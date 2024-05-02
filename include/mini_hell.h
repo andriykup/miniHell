@@ -29,6 +29,14 @@ typedef struct s_mini_shell
 	char	**parsed_input;
 } t_mini_shell;
 
+//struct for env var
+typedef struct s_env
+{
+	char *key;
+	char *value;
+	struct s_env *next;
+} t_env;
+
 void	mini_hell(t_mini_shell mini_shell);
 
 //utils folder
