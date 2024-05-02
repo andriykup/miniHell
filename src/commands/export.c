@@ -11,39 +11,83 @@
 /* ************************************************************************** */
 
 
+////------------------
+#include "../../include/mini_hell.h"
+void add_env_node(t_env **head, char *env);
+t_env *find_env_var(t_env *head, char *env);
+void update_env_node(t_env *env_node, char *env);
+
+
 //// -----------------------------
 //int set_my_env(char **environ, t_env *head);
 
 
-////------------------
+//utils !!!!!!!!!!!!11
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while ((s1[i] || s2[i]) && i < n)
+	{
+		if (s1[i] != s2[i])
+			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+		i++;
+	}
+	return (0);
+}
+//utils !!!!!!!!!!!!11
 
 
-#include "../../include/mini_hell.h"
+
+
+
 // setenv, putenv, and clearenv  <<<<-----
-// char *com_export(char *env)
-// {
-//     extern char **environ;
-//     t_env *my_env;
+void com_export(t_env *head, char *new_env_var)
+{
+    t_env *temp;
 
-//     my_env = set_my_env(environ, my_env);
+    temp = NULL;
+    temp = find_env_var(head, new_env_var);
+    // check if env already exist
+    if(temp == NULL) // env doesnt exist
+        add_env_node(&head, new_env_var);
+    else            // env exists, will update VALUE
+        update_env_node(temp, new_env_var);
+}
 
-    //  set environment variables and make them available to child processes
-    //  To set an environment variable and make it available to subprocesses, use the export
-    //  export MY_VAR="Hello, World!" 
-// }
-// --->    getenv - is allowed
-// find_env_var() will be useful to check if env_var already exist
+t_env *find_env_var(t_env *head, char *env)
+{
+    t_env *current = head;
+    char **splited_env_var = ft_split(env, '=');
 
-// int add_new_env(t_com_export *head, char *env)
-// {
+    while(current != NULL)
+    {
+        // if KEY exist it will return this node
+        if(ft_strncmp(splited_env_var[0], current->key, ft_strlen(splited_env_var[0])) == 0)
+            return (current);
+        current = current->next;
+    }
+    return NULL;
+}
 
-// } 
+void update_env_node(t_env *env_node, char *env)
+{
+    char **splited_env_var = ft_split(env, '=');
+    free(env_node->value);
+    env_node->value = splited_env_var[1];
+}
 
-// t_com_export *find_env_var(t_com_export *head, char *env)
-// {
-
-
-// }
 
 t_env *find_last_node(t_env *head)
 {
@@ -90,14 +134,10 @@ void *set_my_env(char **environ, t_env **head)
         add_env_node(head, environ[i]);
         i++;
     }
-
-
-    
-
     return (0);
 }
 
-
+// need function to free linked list !!!
 
 
 int main()
@@ -106,10 +146,15 @@ int main()
     t_env *my_env;
 
     my_env = NULL;
-    set_my_env(environ, &my_env);
-
+    set_my_env(environ, &my_env); // copy env var
+    // com_export(my_env, "123=456"); //export works :)
+    // com_export(my_env, "ABC=ZXC"); //export test :)
+    // com_export(my_env, "ABC=Andriy"); //export test in case ENV already exist :)
+    // com_export(my_env, "123=123"); //export test in case ENV already exist :)
+// print all env
     t_env *current = my_env;
-    while (current != NULL) {
+    while (current != NULL) 
+    {
         printf("%s=%s\n", current->key, current->value);
         current = current->next;
     }
