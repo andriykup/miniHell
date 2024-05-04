@@ -109,7 +109,8 @@ void add_env_node(t_env **head, char *env)
     splited_env_var = ft_split(env, '=');
     new_env = malloc(sizeof(t_env));
     if(new_env == NULL)
-        return exit(1);
+        return exit(1); //need to free memory before exit!!
+    new_env->prev = NULL;
     new_env->next = NULL;
     new_env->key = splited_env_var[0];
     new_env->value = splited_env_var[1];
@@ -121,6 +122,10 @@ void add_env_node(t_env **head, char *env)
     }
 
     last_env = find_last_node(*head);
+    if(last_env == NULL)
+        new_env->prev = NULL; //working as expected????!
+    else
+        new_env->prev = last_env; //working as expected????!
     last_env->next = new_env;
 }
 
@@ -151,13 +156,13 @@ int main()
     // com_export(my_env, "ABC=ZXC"); //export test :)
     // com_export(my_env, "ABC=Andriy"); //export test in case ENV already exist :)
     // com_export(my_env, "123=123"); //export test in case ENV already exist :)
-// print all env
-    t_env *current = my_env;
-    while (current != NULL) 
-    {
-        printf("%s=%s\n", current->key, current->value);
-        current = current->next;
-    }
 
+    // com_env(my_env);
+    // printf("---\n\n");
+    // com_unset(&my_env, "123");  //unset works :)
+    // com_unset(&my_env, "ABC1"); //unset works :)
+    // printf("---\n\n");
+
+    //com_env(my_env);
     return 0;
 }

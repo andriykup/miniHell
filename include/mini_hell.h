@@ -21,7 +21,8 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <readline/readline.h>
-#include <linux/limits.h>
+//#include <linux/limits.h>
+#include <limits.h> //for mac
 
 //main struct
 typedef struct s_mini_shell
@@ -35,6 +36,7 @@ typedef struct s_env
 {
 	char *key;
 	char *value;
+	struct s_env *prev;
 	struct s_env *next;
 } t_env;
 
@@ -48,6 +50,12 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		com_echo(char *str, int com_option);
 char	*com_pwd(void);
 char	*com_cd(void);
+void com_export(t_env *head, char *new_env_var);
+void com_env(t_env *head);
+int com_unset(t_env **head, char *env);
+
+//util for env
+t_env *find_env_var(t_env *head, char *env);
 
 // free functions
 void	free_struct(t_mini_shell mini_shell);
