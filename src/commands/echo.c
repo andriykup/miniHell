@@ -26,6 +26,10 @@ int com_echo(char *str, int com_option)
 
 // int main()
 // {
-// 	com_echo("123", 1);
+// 	com_echo("-", 0);
 // 	return 0;
 // }
+
+
+// echo "-" ----> edge case
+//echo "\a" --> edge case

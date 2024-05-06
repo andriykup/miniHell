@@ -32,7 +32,6 @@ int main()
 // extra functions
 
 
-
 void free_struct(t_mini_shell mini_shell)
 {
 	int i;
