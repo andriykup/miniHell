@@ -46,10 +46,143 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
-//utils !!!!!!!!!!!!11
+
+
+// -- utils for my_env_to_arr(t_env *head) 
+
+static int	ft_length_custom(char const *s1, char const *s2)
+{
+	int	i;
+	int	ret;
+
+	i = 0;
+	ret = 0;
+	while (s1[i])
+	{
+		i++;
+		ret++;
+	}
+	i = 0;
+	while (s2[i])
+	{
+		i++;
+		ret++;
+	}
+	return (ret);
+}
+
+
+///
 
 
 
+int linked_list_length(t_env *head)
+{
+    t_env *current = head;
+    int i = 0;
+
+    while(current != NULL)
+    {
+        i++;
+        current = current->next;
+    }
+
+    return (i);
+}
+
+// take linked list where each node is env var, copy it to 2d arr to use in execve
+char **my_env_to_arr(t_env *head) 
+{
+    char **my_env_arr;
+    t_env *current = head;
+    int arr_i = 0;
+    int y;
+    int u;
+
+
+    my_env_arr = malloc(linked_list_length(head) * sizeof(char *));
+
+    while (current) 
+    {
+        my_env_arr[arr_i] = malloc(sizeof(char *) * (ft_length_custom(current->key, current->value) + 2));
+        if(my_env_arr == NULL)
+            return NULL;
+        y = 0;
+        printf("123 - %s\n", current->key);
+        while(current->key[y])
+        {
+            my_env_arr[arr_i][y] = current->key[y];
+            printf("%c\n", my_env_arr[arr_i][y]);
+            y++;
+        }
+        printf("KEY:\n");
+        printf("linked list: %s\n", current->key);
+        printf("arr:         %s\n", my_env_arr[arr_i]);
+        my_env_arr[arr_i][y++] = '=';
+        u = 0;
+        while(current->value[u])
+        {
+            my_env_arr[arr_i][y] = current->value[u];
+            y++;
+            u++;
+        }
+        my_env_arr[arr_i][y] = '\0';
+        printf("VALUE:\n");
+        printf("linked list: %s\n", current->key);
+        printf("arr:         %s\n", my_env_arr[arr_i]);
+
+
+        current = current->next;
+        printf("linked list: %s\n", current->value);
+        printf("linked list: %s\n", current->key);
+        arr_i++;
+    }
+
+    // my_env_arr[0] = malloc(sizeof(char *) * (ft_length_custom(current->key, current->value) + 2));
+    // int y = 0;
+    // while(current->key[y])
+    // {
+    //     my_env_arr[0][y] = current->key[y];
+    //     y++;
+    // }
+    // my_env_arr[0][y++] = '=';
+    // int u = 0;
+    // while(current->value[u])
+    // {
+    //     my_env_arr[0][y] = current->value[u];
+    //     y++;
+    //     u++;
+    // }
+    // my_env_arr[0][y] = '\0';
+
+    // current = current->next;
+    // my_env_arr[1] = malloc(sizeof(char *) * (ft_length_custom(current->key, current->value) + 2));
+    // i = 0;
+    // y = 0;
+    // while(current->key[y])
+    // {
+    //     my_env_arr[1][y] = current->key[y];
+    //     y++;
+    // }
+    // my_env_arr[1][y++] = '=';
+    // u = 0;
+    // while(current->value[u])
+    // {
+    //     my_env_arr[1][y] = current->value[u];
+    //     y++;
+    //     u++;
+    // }
+    // my_env_arr[1][y] = '\0';
+
+
+    printf("%s\n",  my_env_arr[0]);
+    printf("%s\n",  my_env_arr[1]);
+
+    return (my_env_arr);
+}
+
+
+//utils !!!!!!!!!!!!
 
 
 // setenv, putenv, and clearenv  <<<<-----
@@ -149,6 +282,7 @@ int main()
 {
     extern char **environ;
     t_env *my_env;
+    char **my_env_arr;
 
     my_env = NULL;
     set_my_env(environ, &my_env); // copy env var
@@ -163,6 +297,13 @@ int main()
     // com_unset(&my_env, "ABC1"); //unset works :)
     // printf("---\n\n");
 
-    //com_env(my_env);
+    // com_env(my_env); // print linked list env
+
+    //my_env_arr = my_env_to_arr(my_env);
+    printf("%d\n", linked_list_length(my_env));
+    my_env_arr = my_env_to_arr(my_env);
+
+
+    // !!!!!!!!!!!   create function to free *my_env AND **my_env_arr   !!!!!!!!!!!!!!!
     return 0;
 }

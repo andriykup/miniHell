@@ -16,7 +16,8 @@ void com_env(t_env *head)
 {
     t_env *current = head;
 
-    while (current != NULL) {
+    while (current != NULL)
+    {
         printf("%s=%s\n", current->key, current->value);
         current = current->next;
     }
