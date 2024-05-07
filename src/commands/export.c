@@ -54,20 +54,25 @@ static int	ft_length_custom(char const *s1, char const *s2)
 {
 	int	i;
 	int	ret;
-
 	i = 0;
 	ret = 0;
-	while (s1[i])
-	{
-		i++;
-		ret++;
-	}
+    if(s2 != NULL)
+    {
+        while (s1[i])
+        {
+            i++;
+            ret++;
+        }
+    }
 	i = 0;
-	while (s2[i])
-	{
-		i++;
-		ret++;
-	}
+    if(s2 != NULL)
+    {
+        while (s2[i])
+        {
+            i++;
+            ret++;
+        }
+    }
 	return (ret);
 }
 
@@ -108,76 +113,31 @@ char **my_env_to_arr(t_env *head)
         if(my_env_arr == NULL)
             return NULL;
         y = 0;
-        printf("123 - %s\n", current->key);
-        while(current->key[y])
+        if(current->key != NULL)
         {
-            my_env_arr[arr_i][y] = current->key[y];
-            printf("%c\n", my_env_arr[arr_i][y]);
-            y++;
+            while(current->key[y])
+            {
+                my_env_arr[arr_i][y] = current->key[y];
+                y++;
+            }
+            my_env_arr[arr_i][y++] = '=';
         }
-        printf("KEY:\n");
-        printf("linked list: %s\n", current->key);
-        printf("arr:         %s\n", my_env_arr[arr_i]);
-        my_env_arr[arr_i][y++] = '=';
         u = 0;
-        while(current->value[u])
-        {
-            my_env_arr[arr_i][y] = current->value[u];
+        if(current->value == NULL)
             y++;
-            u++;
+        else
+        {
+            while(current->value[u])
+            {
+                my_env_arr[arr_i][y] = current->value[u];
+                y++;
+                u++;
+            }
         }
         my_env_arr[arr_i][y] = '\0';
-        printf("VALUE:\n");
-        printf("linked list: %s\n", current->key);
-        printf("arr:         %s\n", my_env_arr[arr_i]);
-
-
         current = current->next;
-        printf("linked list: %s\n", current->value);
-        printf("linked list: %s\n", current->key);
         arr_i++;
     }
-
-    // my_env_arr[0] = malloc(sizeof(char *) * (ft_length_custom(current->key, current->value) + 2));
-    // int y = 0;
-    // while(current->key[y])
-    // {
-    //     my_env_arr[0][y] = current->key[y];
-    //     y++;
-    // }
-    // my_env_arr[0][y++] = '=';
-    // int u = 0;
-    // while(current->value[u])
-    // {
-    //     my_env_arr[0][y] = current->value[u];
-    //     y++;
-    //     u++;
-    // }
-    // my_env_arr[0][y] = '\0';
-
-    // current = current->next;
-    // my_env_arr[1] = malloc(sizeof(char *) * (ft_length_custom(current->key, current->value) + 2));
-    // i = 0;
-    // y = 0;
-    // while(current->key[y])
-    // {
-    //     my_env_arr[1][y] = current->key[y];
-    //     y++;
-    // }
-    // my_env_arr[1][y++] = '=';
-    // u = 0;
-    // while(current->value[u])
-    // {
-    //     my_env_arr[1][y] = current->value[u];
-    //     y++;
-    //     u++;
-    // }
-    // my_env_arr[1][y] = '\0';
-
-
-    printf("%s\n",  my_env_arr[0]);
-    printf("%s\n",  my_env_arr[1]);
-
     return (my_env_arr);
 }
 
@@ -300,9 +260,18 @@ int main()
     // com_env(my_env); // print linked list env
 
     //my_env_arr = my_env_to_arr(my_env);
-    printf("%d\n", linked_list_length(my_env));
     my_env_arr = my_env_to_arr(my_env);
 
+    // --- check ->  t_env *my_env;
+    //com_env(my_env);
+
+    // --- check ->  char **my_env_arr;
+    // int i = 0;
+    // while(my_env_arr[i])
+    // {
+    //     printf("%s\n", my_env_arr[i]);
+    //     i++;
+    // }
 
     // !!!!!!!!!!!   create function to free *my_env AND **my_env_arr   !!!!!!!!!!!!!!!
     return 0;
