@@ -142,6 +142,27 @@ char **my_env_to_arr(t_env *head)
     return (my_env_arr);
 }
 
+char	*ft_strdup(const char *s)
+{
+	char	*pnt;
+	int		i;
+    if(s == NULL)
+        return NULL;
+	i = 0;
+	while (s[i])
+		i++;
+	pnt = (char *)malloc((i + 1) * sizeof(char));
+	if (!pnt)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		pnt[i] = s[i];
+		i++;
+	}
+	pnt[i] = '\0';
+	return (pnt);
+}
 
 //utils !!!!!!!!!!!!
 
@@ -206,8 +227,16 @@ void add_env_node(t_env **head, char *env)
         return exit(1); //need to free memory before exit!!
     new_env->prev = NULL;
     new_env->next = NULL;
-    new_env->key = splited_env_var[0];
-    new_env->value = splited_env_var[1];
+    new_env->key = ft_strdup(splited_env_var[0]);
+    new_env->value = ft_strdup(splited_env_var[1]);
+
+    int i = 0;
+    while(splited_env_var[i])
+    {
+        free(splited_env_var[i]);
+        i++;
+    }
+    free(splited_env_var);
 
     if(*head == NULL)
     {
@@ -221,7 +250,6 @@ void add_env_node(t_env **head, char *env)
     else
         new_env->prev = last_env; //working as expected????!
     last_env->next = new_env;
-    //free(splited_env_var);
 }
 
 void *set_my_env(char **environ, t_env **head)
