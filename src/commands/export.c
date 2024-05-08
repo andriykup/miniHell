@@ -105,7 +105,7 @@ char **my_env_to_arr(t_env *head)
     int u;
 
 
-    my_env_arr = malloc(linked_list_length(head) * sizeof(char *));
+    my_env_arr = malloc((linked_list_length(head) + 1) * sizeof(char *));
 
     while (current) 
     {
@@ -138,6 +138,7 @@ char **my_env_to_arr(t_env *head)
         current = current->next;
         arr_i++;
     }
+    my_env_arr[arr_i] = NULL;
     return (my_env_arr);
 }
 
@@ -220,6 +221,7 @@ void add_env_node(t_env **head, char *env)
     else
         new_env->prev = last_env; //working as expected????!
     last_env->next = new_env;
+    //free(splited_env_var);
 }
 
 void *set_my_env(char **environ, t_env **head)
@@ -237,6 +239,31 @@ void *set_my_env(char **environ, t_env **head)
 
 // need function to free linked list !!!
 
+void free_my_env(t_env *head, char **my_env_arr)
+{
+    if(my_env_arr)
+    {
+        int i = 0;
+        while(my_env_arr[i])
+        {
+            free(my_env_arr[i]);
+            i++;
+        }
+        free(my_env_arr);
+    }
+    if(head == NULL)
+        return ;
+    t_env *current = head;
+    t_env *next;
+    while(current)
+    {
+        free(current->key);
+        free(current->value);
+        next = current->next;
+        free(current);
+        current = next;
+    }
+}
 
 int main()
 {
@@ -257,7 +284,7 @@ int main()
     // com_unset(&my_env, "ABC1"); //unset works :)
     // printf("---\n\n");
 
-    // com_env(my_env); // print linked list env
+    //com_env(my_env); // print linked list env
 
     //my_env_arr = my_env_to_arr(my_env);
     my_env_arr = my_env_to_arr(my_env);
@@ -272,7 +299,7 @@ int main()
     //     printf("%s\n", my_env_arr[i]);
     //     i++;
     // }
-
+    free_my_env(my_env, my_env_arr);
     // !!!!!!!!!!!   create function to free *my_env AND **my_env_arr   !!!!!!!!!!!!!!!
     return 0;
 }

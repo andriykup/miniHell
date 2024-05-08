@@ -91,5 +91,6 @@ char	**ft_split(char const *s, char c)
 		if (j > 0 && arr[j - 1] == NULL)
 			return (ft_free_memory(arr));
 	}
+	arr[j] = NULL; //added this line
 	return (arr);
 }

@@ -21,8 +21,8 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <readline/readline.h>
-//#include <linux/limits.h>
-#include <limits.h> //for mac
+#include <linux/limits.h>
+//#include <limits.h> //for mac
 
 //main struct
 typedef struct s_mini_shell
