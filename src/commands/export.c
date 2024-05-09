@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankupins <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 11:30:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/04/28 11:30:55 by ankupins         ###   ########.fr       */
+/*   Updated: 2024/05/09 11:10:48 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,8 +227,8 @@ void add_env_node(t_env **head, char *env)
         return exit(1); //need to free memory before exit!!
     new_env->prev = NULL;
     new_env->next = NULL;
-    new_env->key = ft_strdup(splited_env_var[0]);
-    new_env->value = ft_strdup(splited_env_var[1]);
+    new_env->key = ft_strdup(splited_env_var[0]); // what if the malloc fails
+    new_env->value = ft_strdup(splited_env_var[1]);// what if the malloc fails
 
     int i = 0;
     while(splited_env_var[i])

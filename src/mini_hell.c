@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/04/25 13:33:20 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/05/09 13:05:55 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void mini_hell(t_mini_shell mini_shell)
 		i = 0;
 		mini_shell.input = readline("Enter a line: ");
 		printf("the string is %s\n", mini_shell.input);
-		mini_shell.parsed_input = ft_split(mini_shell.input, ' ');// need to adjust for min_shell
+		if (mini_shell.input)
+			add_history(mini_shell.input);
+		mini_shell.parsed_input = ft_split(mini_shell.input, '|');// need to adjust for min_shell
 		while (mini_shell.parsed_input[i] != NULL)
 		{
 			//what if empty???
