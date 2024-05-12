@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/04/25 13:24:03 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/05/09 13:05:38 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 #include <linux/limits.h>
 //#include <limits.h> //for mac
 
 //main struct
 typedef struct s_mini_shell
 {
+	int		pipes;
 	char	*input;
 	char	**parsed_input;
 } t_mini_shell;
