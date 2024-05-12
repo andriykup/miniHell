@@ -51,8 +51,9 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 	return (NULL);
 }
 
-void my_execve(t_mini_shell mini_shell, char *my_paths)
+void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
 {
+	int pid;
 	char	*cmd_path;
 	char	**cmd_args;
 	char **splitted_paths = ft_split(my_paths, ':');
@@ -63,13 +64,21 @@ void my_execve(t_mini_shell mini_shell, char *my_paths)
 	if (cmd_path == NULL)
 	{
 		free(cmd_args);
-		printf("ERROR");
+		//printf("ERROR\n");
 		//exit_error("error cmd_path");
 	}
-	if ((execve(cmd_path, cmd_args, NULL)) == -1)
-		printf("ERROR");
-		//exit_error("excve child 2 error");
-	
+
+	pid = fork();
+	if(pid == -1)
+		printf("error forking");
+		//exit_error
+	if(pid == 0)
+	{
+		if((execve(cmd_path, cmd_args, NULL)) == -1)
+			printf("minishell: command not found: %s\n", mini_shell.parsed_input[0]);
+			//exit_error("excve child 2 error");
+	}
+	wait(NULL); // not sure abou wait(), check this part better
 }
 
 void	simple_execution(t_mini_shell mini_shell, t_env *my_env)
@@ -89,7 +98,7 @@ void	simple_execution(t_mini_shell mini_shell, t_env *my_env)
 	// 	com_cd();
 	// else
 	// {
-		my_execve(mini_shell, my_paths);
+		my_simple_execve(mini_shell, my_paths);
 //	}
 	
 	free(my_paths);
@@ -138,24 +147,19 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 		i = 0;
 		mini_shell.pipes = -1;
 		input = readline("Enter a line: ");
-		printf("the string is %s\n", input);
 		if (input[0] != '\0')
 			add_history(input);
 		mini_shell.parsed_input = ft_split(input, '|');// need to adjust for min_shell
 		free(input);
 		while (mini_shell.parsed_input[i] != NULL)
 		{
-			printf("i = %i", i);
 			mini_shell.pipes++;
-			printf("pipes = %i", mini_shell.pipes);
 			i++;
 		}
 		check_pipes(mini_shell, my_env);
-		printf("the number of pipes is = %i\n", mini_shell.pipes);
 		if (mini_shell.parsed_input[0] && (ft_strncmp(mini_shell.parsed_input[0] , "exit", 6) == 0))
 		{
 			free_struct(mini_shell);
-			printf("I exit the program now\n");
 			exit (0);
 		}
 		free_struct(mini_shell);

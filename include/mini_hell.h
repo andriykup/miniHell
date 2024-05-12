@@ -20,6 +20,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <linux/limits.h>
@@ -57,9 +58,9 @@ void com_env(t_env *head);
 int com_unset(t_env **head, char *env);
 
 //util for env
-t_env *find_env_var(t_env *head, char *env);
-void *set_my_env(char **environ, t_env **head);
-void my_execve(t_mini_shell mini_shell, char *my_paths);
+t_env	*find_env_var(t_env *head, char *env);
+void	*set_my_env(char **environ, t_env **head);
+void	my_simple_execve(t_mini_shell mini_shell, char *my_paths);
 char	*find_cmd_path(char **paths_envp, char *cmd);
 void	simple_execution(t_mini_shell mini_shell, t_env *my_env);
 char	*get_env_path(t_env *my_env);
