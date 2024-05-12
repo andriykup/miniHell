@@ -6,7 +6,7 @@
 #    By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/25 11:24:23 by aconvent          #+#    #+#              #
-#    Updated: 2024/04/25 12:52:40 by aconvent         ###   ########.fr        #
+#    Updated: 2024/05/12 15:52:21 by aconvent         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,10 +45,10 @@ FILES = \
 			src/commands/echo \
 			src/commands/pwd \
 			src/commands/cd \
-#			src/commands/export \
-#			src/commands/unset \
-#			src/commands/env \
-#			src/commands/exit \
+			src/commands/export \
+			src/commands/unset \
+			src/commands/env \
+			src/commands/exit \
 
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))
 OBJS = $(addprefix $(O_DIR), $(addsuffix .o, $(FILES)))

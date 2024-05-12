@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 11:30:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/09 11:10:48 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:53:41 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,6 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while ((s1[i] || s2[i]) && i < n)
-	{
-		if (s1[i] != s2[i])
-			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
-		i++;
-	}
-	return (0);
-}
-
 
 // -- utils for my_env_to_arr(t_env *head) 
 
@@ -293,41 +278,41 @@ void free_my_env(t_env *head, char **my_env_arr)
     }
 }
 
-int main()
-{
-    extern char **environ;
-    t_env *my_env;
-    char **my_env_arr;
+// int main()
+// {
+//     extern char **environ;
+//     t_env *my_env;
+//     char **my_env_arr;
 
-    my_env = NULL;
-    set_my_env(environ, &my_env); // copy env var
-    // com_export(my_env, "123=456"); //export works :)
-    // com_export(my_env, "ABC=ZXC"); //export test :)
-    // com_export(my_env, "ABC=Andriy"); //export test in case ENV already exist :)
-    // com_export(my_env, "123=123"); //export test in case ENV already exist :)
+//     my_env = NULL;
+//     set_my_env(environ, &my_env); // copy env var
+//     // com_export(my_env, "123=456"); //export works :)
+//     // com_export(my_env, "ABC=ZXC"); //export test :)
+//     // com_export(my_env, "ABC=Andriy"); //export test in case ENV already exist :)
+//     // com_export(my_env, "123=123"); //export test in case ENV already exist :)
 
-    // com_env(my_env);
-    // printf("---\n\n");
-    // com_unset(&my_env, "123");  //unset works :)
-    // com_unset(&my_env, "ABC1"); //unset works :)
-    // printf("---\n\n");
+//     // com_env(my_env);
+//     // printf("---\n\n");
+//     // com_unset(&my_env, "123");  //unset works :)
+//     // com_unset(&my_env, "ABC1"); //unset works :)
+//     // printf("---\n\n");
 
-    //com_env(my_env); // print linked list env
+//     //com_env(my_env); // print linked list env
 
-    //my_env_arr = my_env_to_arr(my_env);
-    my_env_arr = my_env_to_arr(my_env);
+//     //my_env_arr = my_env_to_arr(my_env);
+//     my_env_arr = my_env_to_arr(my_env);
 
-    // --- check ->  t_env *my_env;
-    //com_env(my_env);
+//     // --- check ->  t_env *my_env;
+//     //com_env(my_env);
 
-    // --- check ->  char **my_env_arr;
-    // int i = 0;
-    // while(my_env_arr[i])
-    // {
-    //     printf("%s\n", my_env_arr[i]);
-    //     i++;
-    // }
-    free_my_env(my_env, my_env_arr);
-    // !!!!!!!!!!!   create function to free *my_env AND **my_env_arr   !!!!!!!!!!!!!!!
-    return 0;
-}
+//     // --- check ->  char **my_env_arr;
+//     // int i = 0;
+//     // while(my_env_arr[i])
+//     // {
+//     //     printf("%s\n", my_env_arr[i]);
+//     //     i++;
+//     // }
+//     free_my_env(my_env, my_env_arr);
+//     // !!!!!!!!!!!   create function to free *my_env AND **my_env_arr   !!!!!!!!!!!!!!!
+//     return 0;
+// }
