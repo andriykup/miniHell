@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_hell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/12 16:27:27 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:31:11 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,32 +75,48 @@ void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
 	if(pid == 0)
 	{
 		if((execve(cmd_path, cmd_args, NULL)) == -1)
+		{
+			// added check for the exit input
+			if (ft_strncmp(cmd_args[0], "exit", 6) == 0)
+			{
+				//need to work on the out put message for exit (some chars) -->bash: exit: kd: numeric argument required
+				printf("exit\n");
+				return ;
+			}
 			printf("minishell: command not found: %s\n", mini_shell.parsed_input[0]);
 			//exit_error("excve child 2 error");
+		}
 	}
 	wait(NULL); // not sure abou wait(), check this part better
 }
 
 void	simple_execution(t_mini_shell mini_shell, t_env *my_env)
 {
-	char *my_paths = get_env_path(my_env);
-	// if(ft_strncmp(mini_shell.parsed_input, "echo ", 5) == 0)
-	// 	com_echo();
-	// else if (ft_strncmp(mini_shell.parsed_input, "cd ", 3) == 0)
-	// 	com_cd();
-	// else if (ft_strncmp(mini_shell.parsed_input, "env ", 4) == 0)
-	// 	com_env();
-	// else if (ft_strncmp(mini_shell.parsed_input, "unset ", 6) == 0)
-	// 	com_unset();
-	// else if (ft_strncmp(mini_shell.parsed_input, "pwd ", 4) == 0)
-	// 	com_cd();
-	// else if (ft_strncmp(mini_shell.parsed_input, "export ", 7) == 0)
-	// 	com_cd();
-	// else
-	// {
-		my_simple_execve(mini_shell, my_paths);
-//	}
+	char **command;
 	
+	command = ft_split(mini_shell.parsed_input[0], ' ');
+	if (command == NULL)
+	{
+		//error mannaging
+		printf("error in the creation of the split\n");
+		return ;
+	}
+	char *my_paths = get_env_path(my_env);
+	if(ft_strncmp(command[0], "echo", 5) == 0)
+	 	com_echo(command);
+	// else if (ft_strncmp(command[0], "cd", 3) == 0)
+	// 	com_cd(commands);
+	// else if (ft_strncmp(command[0], "env", 4) == 0)
+	// 	com_env(comand);
+	// else if (ft_strncmp(mini_shell.parsed_input, "unset", 6) == 0)
+	// 	com_unset(command);
+	else if (ft_strncmp(command[0], "pwd", 4) == 0)
+	 	com_pwd(command);
+	// else if (ft_strncmp(mini_shell.parsed_input, "export", 7) == 0)
+	// 	com_cd(command);
+	else
+		my_simple_execve(mini_shell, my_paths);
+	free(command);
 	free(my_paths);
 }
 
@@ -151,11 +167,8 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 			add_history(input);
 		mini_shell.parsed_input = ft_split(input, '|');// need to adjust for min_shell
 		free(input);
-		while (mini_shell.parsed_input[i] != NULL)
-		{
+		while (mini_shell.parsed_input[i++] != NULL)
 			mini_shell.pipes++;
-			i++;
-		}
 		check_pipes(mini_shell, my_env);
 		if (mini_shell.parsed_input[0] && (ft_strncmp(mini_shell.parsed_input[0] , "exit", 6) == 0))
 		{

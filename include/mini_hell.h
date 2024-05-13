@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_hell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/12 16:26:18 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/05/13 18:51:22 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <linux/limits.h>
-//#include <limits.h> //for mac
+//#include <linux/limits.h>
+#include <limits.h> //for mac
 
 //main struct
 typedef struct s_mini_shell
@@ -50,8 +50,8 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s);
 
 // commands
-int		com_echo(char *str, int com_option);
-char	*com_pwd(void);
+int		com_echo(char **command);
+char	*com_pwd(char **command);
 char	*com_cd(void);
 void com_export(t_env *head, char *new_env_var);
 void com_env(t_env *head);

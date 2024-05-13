@@ -1,0 +1,8 @@
+
+
+
+a line full spaces segfault 
+
+
+spaces before line will make it to not quit
+

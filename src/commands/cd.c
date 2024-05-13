@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankupins <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 16:55:05 by ankupins          #+#    #+#             */
-/*   Updated: 2024/04/27 16:55:07 by ankupins         ###   ########.fr       */
+/*   Updated: 2024/05/13 18:56:16 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_hell.h"
 
+// need to work for directing to the correct dirrector
 char *com_cd(void)
 {
     //adapt it to use com_pwd here !!!!
