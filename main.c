@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:04:38 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/12 15:57:47 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/05/14 15:48:11 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,13 @@ void free_struct(t_mini_shell mini_shell)
 		while (mini_shell.parsed_input[i] != NULL)
 		{
 			free(mini_shell.parsed_input[i]);
+			mini_shell.parsed_input[i] = NULL;
 			i++;
 		}
+		free(mini_shell.parsed_input[i]);
+		mini_shell.parsed_input[i] = NULL;
 		free(mini_shell.parsed_input);
+		mini_shell.parsed_input = NULL;
 	}
+	printf("the struct have been freed\n");
 }

@@ -6,7 +6,7 @@
 /*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/14 14:02:27 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/14 16:08:08 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 	free(full_cmd);
 	return (NULL);
 }
+	//execve need to work with pat (/bin/ls)
 
 void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
 {
@@ -61,11 +62,9 @@ void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
 	cmd_args = ft_split(mini_shell.parsed_input[0], ' ');
 	cmd_path = find_cmd_path(splitted_paths, cmd_args[0]);
 
-	if (ft_strncmp(cmd_args[0], "exit", 6) == 0)
-	{
-		printf("exit\n");
-		exit (0);
-	}
+	printf("the string is %s\n", cmd_args[0]);
+	if (ft_strncmp(cmd_args[0], "exit", 5) == 0)
+		return;
 	if (cmd_path == NULL)
 	{
 		free(cmd_args);
@@ -83,7 +82,7 @@ void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
 		{
 			// added check for the exit input
 			printf("minishell: command not found: %s\n", cmd_args[0]);
-			//exit_error("excve child 2 error");
+			exit(EXIT_SUCCESS);
 		}
 	}
 	wait(NULL); // not sure abou wait(), check this part better
@@ -105,8 +104,8 @@ void	simple_execution(t_mini_shell mini_shell, t_env *my_env)
 	 	com_echo(command);
 	// else if (ft_strncmp(command[0], "cd", 3) == 0)
 	// 	com_cd(commands);
-	// else if (ft_strncmp(command[0], "env", 4) == 0)
-	// 	com_env(comand);
+	else if (ft_strncmp(command[0], "env", 4) == 0)
+	 	com_env(command, my_env);
 	// else if (ft_strncmp(mini_shell.parsed_input, "unset", 6) == 0)
 	// 	com_unset(command);
 	else if (ft_strncmp(command[0], "pwd", 4) == 0)
@@ -127,7 +126,9 @@ void	simple_execution(t_mini_shell mini_shell, t_env *my_env)
 // 		printf("not there yet\n");
 // }
 
+/*
 
+*/
 char	*get_env_path(t_env *my_env)
 {
 	char *env_path;
@@ -145,7 +146,6 @@ char	*get_env_path(t_env *my_env)
 	return (NULL);
 }
 
-
 void	check_pipes(t_mini_shell mini_shell, t_env *my_env)
 {
 	if (mini_shell.pipes == 0)
@@ -162,19 +162,19 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 		i = 0;
 		mini_shell.pipes = -1;
 		input = readline("Enter a line: ");
-		if (input[0] != '\0')
-			add_history(input);
-		mini_shell.parsed_input = ft_split(&input[i], '|');// need to adjust for min_shell
-		i = 0;
+		// if (input != NULL)
+		// 	add_history(input);
+		mini_shell.parsed_input = ft_split(input, '|');// need to adjust for min_shell
+		free(input);
 		while (mini_shell.parsed_input[i++] != NULL)
 			mini_shell.pipes++;
 		check_pipes(mini_shell, my_env);
 		if (mini_shell.parsed_input[0] && (ft_strncmp(mini_shell.parsed_input[0] , "exit", 5) == 0))
 		{
+			printf("i am here\n");
 			free_struct(mini_shell);
-			exit (0);
+			break;
 		}
-		free(input);
 		free_struct(mini_shell);
 	}	
 }

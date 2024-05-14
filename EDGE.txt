@@ -14,3 +14,7 @@ Enter a line:     exit
 
 wired behaviour !!! 
 
+
+
+
+exit not working properly after line = /bin;

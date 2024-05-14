@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+         #
+#    By: amaury <amaury@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/25 11:24:23 by aconvent          #+#    #+#              #
-#    Updated: 2024/05/12 15:52:21 by aconvent         ###   ########.fr        #
+#    Updated: 2024/05/14 15:25:07 by amaury           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,8 +56,7 @@ OBJS = $(addprefix $(O_DIR), $(addsuffix .o, $(FILES)))
 ######## Compiler and flags ########
 
 CC := cc 
-CFLAGS = # -Wall -Wextra -Werror            !!!!!!!!!!!!!!!
-
+CFLAGS =  -Wall -Wextra -Werror 
 ######## first rule called by make ########
 
 all : $(NAME)
