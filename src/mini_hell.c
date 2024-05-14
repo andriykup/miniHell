@@ -6,7 +6,7 @@
 /*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/14 16:08:08 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/14 16:39:39 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
 	cmd_args = ft_split(mini_shell.parsed_input[0], ' ');
 	cmd_path = find_cmd_path(splitted_paths, cmd_args[0]);
 
-	printf("the string is %s\n", cmd_args[0]);
 	if (ft_strncmp(cmd_args[0], "exit", 5) == 0)
 		return;
 	if (cmd_path == NULL)
@@ -78,7 +77,7 @@ void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
 		//exit_error
 	if(pid == 0)
 	{
-		if((execve(cmd_path, cmd_args, NULL)) == -1)
+		if((execve(cmd_path, cmd_args, NULL)) < 0)
 		{
 			// added check for the exit input
 			printf("minishell: command not found: %s\n", cmd_args[0]);
@@ -165,13 +164,15 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 		// if (input != NULL)
 		// 	add_history(input);
 		mini_shell.parsed_input = ft_split(input, '|');// need to adjust for min_shell
+		if (mini_shell.parsed_input[0] == NULL)
+			continue;
 		free(input);
 		while (mini_shell.parsed_input[i++] != NULL)
 			mini_shell.pipes++;
 		check_pipes(mini_shell, my_env);
 		if (mini_shell.parsed_input[0] && (ft_strncmp(mini_shell.parsed_input[0] , "exit", 5) == 0))
 		{
-			printf("i am here\n");
+			printf("exit\n");
 			free_struct(mini_shell);
 			break;
 		}
