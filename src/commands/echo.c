@@ -6,7 +6,7 @@
 /*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 13:48:47 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/13 18:39:38 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/14 13:48:26 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,17 @@ int com_echo(char **command)
 	
 	flag = 0;
 	i = 1;
-	if (ft_strncmp(command[i], "-n", 3) == 0)
+	if (command[i] == NULL)
+	{
+		printf("\n");
+		return(0);
+	}
+	while (ft_strncmp(command[i], "-n", 3) == 0)
 	{
 		flag = 1;
-		while(ft_strncmp(command[i], "-n", 3) == 0)
-			i++;
+		i++;
+		if (command[i] == NULL)
+			return(0);
 	}
 	while (command[i] != NULL)
 	{

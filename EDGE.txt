@@ -1,8 +1,16 @@
 
 
 
-a line full spaces segfault 
+a line full spaces -- >segfault 
+        |
+        |
+        \/
+Enter a line: "              "
 
 
-spaces before line will make it to not quit
+
+
+Enter a line:     exit 
+
+wired behaviour !!! 
 

@@ -6,7 +6,7 @@
 /*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/13 19:31:11 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/14 14:02:27 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@ void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
 	cmd_args = ft_split(mini_shell.parsed_input[0], ' ');
 	cmd_path = find_cmd_path(splitted_paths, cmd_args[0]);
 
+	if (ft_strncmp(cmd_args[0], "exit", 6) == 0)
+	{
+		printf("exit\n");
+		exit (0);
+	}
 	if (cmd_path == NULL)
 	{
 		free(cmd_args);
@@ -77,13 +82,7 @@ void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
 		if((execve(cmd_path, cmd_args, NULL)) == -1)
 		{
 			// added check for the exit input
-			if (ft_strncmp(cmd_args[0], "exit", 6) == 0)
-			{
-				//need to work on the out put message for exit (some chars) -->bash: exit: kd: numeric argument required
-				printf("exit\n");
-				return ;
-			}
-			printf("minishell: command not found: %s\n", mini_shell.parsed_input[0]);
+			printf("minishell: command not found: %s\n", cmd_args[0]);
 			//exit_error("excve child 2 error");
 		}
 	}
@@ -165,16 +164,17 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 		input = readline("Enter a line: ");
 		if (input[0] != '\0')
 			add_history(input);
-		mini_shell.parsed_input = ft_split(input, '|');// need to adjust for min_shell
-		free(input);
+		mini_shell.parsed_input = ft_split(&input[i], '|');// need to adjust for min_shell
+		i = 0;
 		while (mini_shell.parsed_input[i++] != NULL)
 			mini_shell.pipes++;
 		check_pipes(mini_shell, my_env);
-		if (mini_shell.parsed_input[0] && (ft_strncmp(mini_shell.parsed_input[0] , "exit", 6) == 0))
+		if (mini_shell.parsed_input[0] && (ft_strncmp(mini_shell.parsed_input[0] , "exit", 5) == 0))
 		{
 			free_struct(mini_shell);
 			exit (0);
 		}
+		free(input);
 		free_struct(mini_shell);
 	}	
 }

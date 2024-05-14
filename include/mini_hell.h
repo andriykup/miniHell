@@ -6,7 +6,7 @@
 /*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/13 18:51:22 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/14 13:29:01 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	*com_cd(void);
 void com_export(t_env *head, char *new_env_var);
 void com_env(t_env *head);
 int com_unset(t_env **head, char *env);
+size_t	ft_strlen(const char *s);
 
 //util for env
 t_env	*find_env_var(t_env *head, char *env);
