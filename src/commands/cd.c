@@ -6,7 +6,7 @@
 /*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 16:55:05 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/13 18:56:16 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/14 20:53:48 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,3 @@ char *com_cd(void)
     free(pwd); //what if we need to return it???
     return (0);
 }
-
-
-// int main()
-// {
-//     com_cd();
-//     return 0;
-// }

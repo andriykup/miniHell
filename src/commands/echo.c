@@ -6,7 +6,7 @@
 /*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 13:48:47 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/14 13:48:26 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/14 20:56:50 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,12 @@ int com_echo(char **command)
 	while (ft_strncmp(command[i], "-n", 3) == 0)
 	{
 		flag = 1;
-		i++;
-		if (command[i] == NULL)
+		if (command[++i] == NULL)
 			return(0);
 	}
 	while (command[i] != NULL)
 	{
-		printf("%s", command[i]);
-		i++;
+		printf("%s", command[i++]);
 		if (command[i] != NULL)
 			printf(" ");
 	}
@@ -45,13 +43,3 @@ int com_echo(char **command)
 	printf("\n");
 	return (0);
 }
-
-// int main()
-// {
-// 	com_echo("-", 0);
-// 	return 0;
-// }
-
-
-// echo "-" ----> edge case
-//echo "\a" --> edge case

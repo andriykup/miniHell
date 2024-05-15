@@ -6,7 +6,7 @@
 /*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/14 16:39:39 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/15 03:35:15 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,26 @@ void	check_pipes(t_mini_shell mini_shell, t_env *my_env)
 	else
 		printf("not there yet\n");
 }
+
+
+char *ft_spaceout(char *input)
+{
+	char *res;
+	int len;
+	int i;
+	int j;
+	
+	i = 0;
+	j = 0;
+	len = ft_strlen(input);
+	res = malloc(sizeof(char) * (len + 1));
+	while (input[i] == ' ' && input[i] != '\0')
+		i++;
+	while (input[i] != '\0')
+		res[j++] = input[i++];
+	res[j] = '\0';
+	return (res);
+}
 void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 {
 	int i;
@@ -161,8 +181,10 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 		i = 0;
 		mini_shell.pipes = -1;
 		input = readline("Enter a line: ");
-		// if (input != NULL)
-		// 	add_history(input);
+		if (input[0] != '\0')
+			add_history(input);
+		input = ft_spaceout(input);
+		printf("string = [%s]\n", input);
 		mini_shell.parsed_input = ft_split(input, '|');// need to adjust for min_shell
 		if (mini_shell.parsed_input[0] == NULL)
 			continue;
@@ -180,7 +202,3 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 	}	
 }
 
-// t_commands 
-// {
-// 	char * cmd_flags;
-// }

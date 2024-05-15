@@ -6,7 +6,7 @@
 /*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:04:38 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/14 15:48:11 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/14 20:58:08 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,4 @@ void free_struct(t_mini_shell mini_shell)
 		free(mini_shell.parsed_input);
 		mini_shell.parsed_input = NULL;
 	}
-	printf("the struct have been freed\n");
 }
