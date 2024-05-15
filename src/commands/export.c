@@ -81,51 +81,51 @@ int linked_list_length(t_env *head)
 }
 
 // take linked list where each node is env var, copy it to 2d arr to use in execve
-char **my_env_to_arr(t_env *head) 
-{
-    char **my_env_arr;
-    t_env *current = head;
-    int arr_i = 0;
-    int y;
-    int u;
+// char **my_env_to_arr(t_env *head) 
+// {
+//     char **my_env_arr;
+//     t_env *current = head;
+//     int arr_i = 0;
+//     int y;
+//     int u;
 
 
-    my_env_arr = malloc((linked_list_length(head) + 1) * sizeof(char *));
+//     my_env_arr = malloc((linked_list_length(head) + 1) * sizeof(char *));
 
-    while (current) 
-    {
-        my_env_arr[arr_i] = malloc(sizeof(char *) * (ft_length_custom(current->key, current->value) + 2));
-        if(my_env_arr == NULL)
-            return NULL;
-        y = 0;
-        if(current->key != NULL)
-        {
-            while(current->key[y])
-            {
-                my_env_arr[arr_i][y] = current->key[y];
-                y++;
-            }
-            my_env_arr[arr_i][y++] = '=';
-        }
-        u = 0;
-        if(current->value == NULL)
-            y++;
-        else
-        {
-            while(current->value[u])
-            {
-                my_env_arr[arr_i][y] = current->value[u];
-                y++;
-                u++;
-            }
-        }
-        my_env_arr[arr_i][y] = '\0';
-        current = current->next;
-        arr_i++;
-    }
-    my_env_arr[arr_i] = NULL;
-    return (my_env_arr);
-}
+//     while (current) 
+//     {
+//         my_env_arr[arr_i] = malloc(sizeof(char *) * (ft_length_custom(current->key, current->value) + 2));
+//         if(my_env_arr == NULL)
+//             return NULL;
+//         y = 0;
+//         if(current->key != NULL)
+//         {
+//             while(current->key[y])
+//             {
+//                 my_env_arr[arr_i][y] = current->key[y];
+//                 y++;
+//             }
+//             my_env_arr[arr_i][y++] = '=';
+//         }
+//         u = 0;
+//         if(current->value == NULL)
+//             y++;
+//         else
+//         {
+//             while(current->value[u])
+//             {
+//                 my_env_arr[arr_i][y] = current->value[u];
+//                 y++;
+//                 u++;
+//             }
+//         }
+//         my_env_arr[arr_i][y] = '\0';
+//         current = current->next;
+//         arr_i++;
+//     }
+//     my_env_arr[arr_i] = NULL;
+//     return (my_env_arr);
+// }
 
 char	*ft_strdup(const char *s)
 {
@@ -252,18 +252,8 @@ void *set_my_env(char **environ, t_env **head)
 
 // need function to free linked list !!!
 
-void free_my_env(t_env *head, char **my_env_arr)
+void free_my_env(t_env *head)
 {
-    if(my_env_arr)
-    {
-        int i = 0;
-        while(my_env_arr[i])
-        {
-            free(my_env_arr[i]);
-            i++;
-        }
-        free(my_env_arr);
-    }
     if(head == NULL)
         return ;
     t_env *current = head;

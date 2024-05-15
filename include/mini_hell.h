@@ -57,6 +57,7 @@ void com_export(t_env *head, char *new_env_var);
 void com_env(char**command, t_env *head);
 int com_unset(t_env **head, char *env);
 size_t	ft_strlen(const char *s);
+void com_exit(t_mini_shell mini_shell, t_env *my_env);
 
 //util for env
 t_env	*find_env_var(t_env *head, char *env);
@@ -70,6 +71,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 
 // free functions
 void	free_struct(t_mini_shell mini_shell);
+void free_my_env(t_env *head);
 
 // error handling functions
 void	error(int error_code, t_mini_shell mini_shell);

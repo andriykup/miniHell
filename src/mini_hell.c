@@ -193,11 +193,7 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 			mini_shell.pipes++;
 		check_pipes(mini_shell, my_env);
 		if (mini_shell.parsed_input[0] && (ft_strncmp(mini_shell.parsed_input[0] , "exit", 5) == 0))
-		{
-			printf("exit\n");
-			free_struct(mini_shell);
-			break;
-		}
+			com_exit(mini_shell, my_env);
 		free_struct(mini_shell);
 	}	
 }

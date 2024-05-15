@@ -56,7 +56,7 @@ OBJS = $(addprefix $(O_DIR), $(addsuffix .o, $(FILES)))
 ######## Compiler and flags ########
 
 CC := cc 
-CFLAGS =  -Wall -Wextra -Werror 
+CFLAGS =  #-Wall -Wextra -Werror 
 ######## first rule called by make ########
 
 all : $(NAME)
