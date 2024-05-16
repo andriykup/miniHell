@@ -33,7 +33,7 @@ char *com_pwd(char **command)
     pwd = getcwd(pwd, PATH_MAX);
     printf("%s\n", pwd);
 
-    free(pwd); //what if we need to return it???
+    free(pwd);
     return (0);
 }
 

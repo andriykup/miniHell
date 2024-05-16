@@ -23,7 +23,7 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-//#include <linux/limits.h>
+#include <linux/limits.h>
 #include <limits.h> //for mac
 
 //main struct
@@ -52,8 +52,8 @@ char	*ft_strdup(const char *s);
 // commands
 int		com_echo(char **command);
 char	*com_pwd(char **command);
-char	*com_cd(void);
-void com_export(t_env *head, char *new_env_var);
+char	*com_cd(char *path); 
+void	com_export(t_env *head, char *new_env_var);
 void com_env(char**command, t_env *head);
 int com_unset(t_env **head, char *env);
 size_t	ft_strlen(const char *s);

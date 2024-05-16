@@ -13,21 +13,26 @@
 #include "../../include/mini_hell.h"
 
 // need to work for directing to the correct dirrector
-char *com_cd(void)
+
+// MEM LEAKS!!!!
+
+
+char *com_cd(char *path)
 {
-    //adapt it to use com_pwd here !!!!
     char *pwd; 
 
     pwd = malloc(sizeof(char) * PATH_MAX);
     pwd = getcwd(pwd, PATH_MAX);
     printf("%s\n", pwd);
-
-    chdir("/home/ankupins/");
+    pwd = ft_strjoin(pwd, "/");
+    pwd = ft_strjoin(pwd, path);
+    printf("TEST = %s\n", pwd);
+    chdir(pwd);
 
     pwd = getcwd(pwd, PATH_MAX);
     printf("%s\n", pwd);
 
 
-    free(pwd); //what if we need to return it???
+    free(pwd);
     return (0);
 }

@@ -101,16 +101,16 @@ void	simple_execution(t_mini_shell mini_shell, t_env *my_env)
 	char *my_paths = get_env_path(my_env);
 	if(ft_strncmp(command[0], "echo", 5) == 0)
 	 	com_echo(command);
-	// else if (ft_strncmp(command[0], "cd", 3) == 0)
-	// 	com_cd(commands);
+	else if (ft_strncmp(command[0], "cd", 3) == 0)
+		com_cd(command[1]);
 	else if (ft_strncmp(command[0], "env", 4) == 0)
 	 	com_env(command, my_env);
-	// else if (ft_strncmp(mini_shell.parsed_input, "unset", 6) == 0)
-	// 	com_unset(command);
+	else if (ft_strncmp(command[0], "unset", 6) == 0)
+		com_unset(&my_env, command[1]);
 	else if (ft_strncmp(command[0], "pwd", 4) == 0)
 	 	com_pwd(command);
-	// else if (ft_strncmp(mini_shell.parsed_input, "export", 7) == 0)
-	// 	com_cd(command);
+	else if (ft_strncmp(command[0], "export", 7) == 0)
+		com_export(my_env, command[1]);
 	else
 		my_simple_execve(mini_shell, my_paths);
 	free(command);
@@ -170,6 +170,7 @@ char *ft_spaceout(char *input)
 	while (input[i] != '\0')
 		res[j++] = input[i++];
 	res[j] = '\0';
+	free(input);
 	return (res);
 }
 void mini_hell(t_mini_shell mini_shell, t_env *my_env)
