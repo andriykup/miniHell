@@ -48,6 +48,8 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env);
 char	**ft_split(char const *s, char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s);
+void ft_free_2arr(char **arr);
+
 
 // commands
 int		com_echo(char **command);

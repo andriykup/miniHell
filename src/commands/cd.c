@@ -15,8 +15,6 @@
 // need to work for directing to the correct dirrector
 
 // MEM LEAKS!!!!
-
-
 char *com_cd(char *path)
 {
     char *pwd; 

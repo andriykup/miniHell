@@ -74,3 +74,14 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
+
+void ft_free_2arr(char **arr)
+{
+	int i = 0;
+	while(arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}

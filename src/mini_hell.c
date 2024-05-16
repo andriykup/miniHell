@@ -111,9 +111,15 @@ void	simple_execution(t_mini_shell mini_shell, t_env *my_env)
 	 	com_pwd(command);
 	else if (ft_strncmp(command[0], "export", 7) == 0)
 		com_export(my_env, command[1]);
+	else if (ft_strncmp(command[0], "exit", 7) == 0)
+	{
+		ft_free_2arr(command);
+		com_exit(mini_shell, my_env);
+	}
 	else
 		my_simple_execve(mini_shell, my_paths);
-	free(command);
+	
+	ft_free_2arr(command);
 	free(my_paths);
 }
 
@@ -194,7 +200,10 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 			mini_shell.pipes++;
 		check_pipes(mini_shell, my_env);
 		if (mini_shell.parsed_input[0] && (ft_strncmp(mini_shell.parsed_input[0] , "exit", 5) == 0))
+		{
+			free(input);
 			com_exit(mini_shell, my_env);
+		}
 		free_struct(mini_shell);
 	}	
 }
