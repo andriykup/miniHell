@@ -29,10 +29,11 @@ char *com_pwd(char **command)
         printf("pwd: too many argument\n");
         return (0);
     }
-    pwd = malloc(sizeof(char) * PATH_MAX);
-    pwd = getcwd(pwd, PATH_MAX);
+    //pwd = malloc(sizeof(char) * PATH_MAX);
+    pwd = getcwd(NULL, 0);
+    if(pwd == NULL)
+        return NULL;
     printf("%s\n", pwd);
-
     free(pwd);
     return (0);
 }

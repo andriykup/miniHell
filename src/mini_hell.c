@@ -118,7 +118,6 @@ void	simple_execution(t_mini_shell mini_shell, t_env *my_env)
 	}
 	else
 		my_simple_execve(mini_shell, my_paths);
-	
 	ft_free_2arr(command);
 	free(my_paths);
 }
