@@ -10,6 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+// ****************
+// TO FIX:
+//  export 123= -> assigns value null instead of empty!
+
+
+
+
 
 ////------------------
 #include "../../include/mini_hell.h"
@@ -175,9 +182,13 @@ t_env *find_env_var(t_env *head, char *env)
     {
         // if KEY exist it will return this node
         if(ft_strncmp(splited_env_var[0], current->key, ft_strlen(splited_env_var[0])) == 0)
+        {
+            ft_free_2arr(splited_env_var);
             return (current);
+        }
         current = current->next;
     }
+    ft_free_2arr(splited_env_var);
     return NULL;
 }
 
