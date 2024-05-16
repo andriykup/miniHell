@@ -44,6 +44,7 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 			free(full_cmd);
 			return (ret);
 		}
+		free(ret);
 		i++;
 	}
 	free(ret);
@@ -85,6 +86,9 @@ void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
 		}
 	}
 	wait(NULL); // not sure abou wait(), check this part better
+	ft_free_2arr(splitted_paths);
+	ft_free_2arr(cmd_args);
+	free(cmd_path);
 }
 
 void	simple_execution(t_mini_shell mini_shell, t_env *my_env)
