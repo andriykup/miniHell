@@ -53,6 +53,12 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 }
 	//execve need to work with pat (/bin/ls)
 
+void multi_pipe_executions(t_mini_shell mini_shell, t_env *my_env)
+{
+	printf("working on it, not done yet");
+}
+
+
 void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
 {
 	int pid;
@@ -63,8 +69,6 @@ void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
 	cmd_args = ft_split(mini_shell.parsed_input[0], ' ');
 	cmd_path = find_cmd_path(splitted_paths, cmd_args[0]);
 
-	if (ft_strncmp(cmd_args[0], "exit", 5) == 0)
-		return;
 	if (cmd_path == NULL)
 	{
 		free(cmd_args);
@@ -126,17 +130,6 @@ void	simple_execution(t_mini_shell mini_shell, t_env *my_env)
 	free(my_paths);
 }
 
-// void	check_pipes(t_mini_shell mini_shell)
-// {
-// 	if (mini_shell.pipes == 0)
-// 		simple_execution(mini_shell);
-// 	else
-// 		printf("not there yet\n");
-// }
-
-/*
-
-*/
 char	*get_env_path(t_env *my_env)
 {
 	char *env_path;
@@ -159,7 +152,7 @@ void	check_pipes(t_mini_shell mini_shell, t_env *my_env)
 	if (mini_shell.pipes == 0)
 		simple_execution(mini_shell, my_env);
 	else
-		printf("not there yet\n");
+		multi_pipe_executions(mini_shell, my_env);
 }
 
 
@@ -202,11 +195,6 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 		while (mini_shell.parsed_input[i++] != NULL)
 			mini_shell.pipes++;
 		check_pipes(mini_shell, my_env);
-		if (mini_shell.parsed_input[0] && (ft_strncmp(mini_shell.parsed_input[0] , "exit", 5) == 0))
-		{
-			free(input);
-			com_exit(mini_shell, my_env);
-		}
 		free_struct(mini_shell);
 	}	
 }
