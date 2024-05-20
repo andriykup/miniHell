@@ -29,7 +29,7 @@
 //main struct
 typedef struct s_mini_shell
 {
-	int		pipes; // number of the pipes we need to execute
+	int		pipes; // number of the pipes 
 	char	**parsed_input;
 } t_mini_shell;
 

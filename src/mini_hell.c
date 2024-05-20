@@ -56,24 +56,37 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 void multi_pipe_executions(t_mini_shell mini_shell, t_env *my_env)
 {
 	char *my_paths = get_env_path(my_env);
-	char **splitted_paths = ft_split(my_paths, ':');
+	char **splitted_paths = ft_split(my_paths, ':');  // splitted_paths should be part of struct (t_mini_shell mini_shell) 
 	// split args of each command
 	char	**cmd_args1 = ft_split(mini_shell.parsed_input[0], ' ');
 	char	**cmd_args2 = ft_split(mini_shell.parsed_input[1], ' ');
 	char *cmd_path1 = find_cmd_path(splitted_paths, cmd_args1[0]);
 	char *cmd_path2 = find_cmd_path(splitted_paths, cmd_args2[0]);
+	
+	
+	int pipefd[2 * mini_shell.pipes];
+	//setting pipes
+	int i = 0;
+	while(i < mini_shell.pipes)
+	{
+		pipe(pipefd + i * 2);
+		i++;
+		//missing protection
+	}
 
-	int fd[2];
+
+
+
+
 	int pid1, pid2;
 	
-	pipe(fd); //missing protection
 	pid1 = fork();
 	if(pid1 == 0)
 	{
 		//child process 1
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]);
-		close(fd[1]); //?? check this line
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[0]);
+		close(pipefd[1]); //?? check this line
 
 		execve(cmd_path1, cmd_args1, NULL);
 	}
@@ -83,14 +96,14 @@ void multi_pipe_executions(t_mini_shell mini_shell, t_env *my_env)
 	{
 		//child process 2
 
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[1]);
-		close(fd[0]); //?? check this line
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[1]);
+		close(pipefd[0]); //?? check this line
 
 		execve(cmd_path2, cmd_args2, NULL);
 	}
-	close(fd[0]);
-	close(fd[1]);
+	close(pipefd[0]);
+	close(pipefd[1]);
 	wait(NULL);
 	wait(NULL);
 
@@ -103,7 +116,7 @@ void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
 	int pid;
 	char	*cmd_path;
 	char	**cmd_args;
-	char **splitted_paths = ft_split(my_paths, ':');
+	char **splitted_paths = ft_split(my_paths, ':'); // splitted_paths should be part of struct (t_mini_shell mini_shell) 
 
 	cmd_args = ft_split(mini_shell.parsed_input[0], ' ');
 	cmd_path = find_cmd_path(splitted_paths, cmd_args[0]);
