@@ -55,7 +55,46 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 
 void multi_pipe_executions(t_mini_shell mini_shell, t_env *my_env)
 {
-	printf("working on it, not done yet");
+	char *my_paths = get_env_path(my_env);
+	char **splitted_paths = ft_split(my_paths, ':');
+	// split args of each command
+	char	**cmd_args1 = ft_split(mini_shell.parsed_input[0], ' ');
+	char	**cmd_args2 = ft_split(mini_shell.parsed_input[1], ' ');
+	char *cmd_path1 = find_cmd_path(splitted_paths, cmd_args1[0]);
+	char *cmd_path2 = find_cmd_path(splitted_paths, cmd_args2[0]);
+
+	int fd[2];
+	int pid1, pid2;
+	
+	pipe(fd); //missing protection
+	pid1 = fork();
+	if(pid1 == 0)
+	{
+		//child process 1
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[0]);
+		close(fd[1]); //?? check this line
+
+		execve(cmd_path1, cmd_args1, NULL);
+	}
+
+	pid2 = fork();
+	if(pid2 == 0)
+	{
+		//child process 2
+
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[1]);
+		close(fd[0]); //?? check this line
+
+		execve(cmd_path2, cmd_args2, NULL);
+	}
+	close(fd[0]);
+	close(fd[1]);
+	wait(NULL);
+	wait(NULL);
+
+	free(my_paths);
 }
 
 
