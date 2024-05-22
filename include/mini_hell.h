@@ -26,14 +26,31 @@
 #include <linux/limits.h>
 #include <limits.h> //for mac
 
+typedef struct s_arguments
+{
+	char *arg;
+	int quotes; //0 no quotes 1 single 2 double quotes
+	struct s_arguments *next;
+}	t_arguments;
+
+typedef struct s_commands
+{
+	char *cmd;
+	t_arguments *args;
+	struct s_commands *next;
+} t_commands;
+//struct for env var
+
 //main struct
 typedef struct s_mini_shell
 {
 	int		pipes; // number of the pipes 
 	char	**parsed_input;
+	char *my_paths;
+	t_commands *commands;
 } t_mini_shell;
 
-//struct for env var
+
 typedef struct s_env
 {
 	char *key;
