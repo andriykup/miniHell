@@ -48,6 +48,7 @@ typedef struct s_mini_shell
 	char	**parsed_input;
 	char *my_paths;
 	t_commands *commands;
+	//t_env better to be inside of this struct
 } t_mini_shell;
 
 
@@ -81,7 +82,7 @@ void com_exit(t_mini_shell mini_shell, t_env *my_env);
 //util for env
 t_env	*find_env_var(t_env *head, char *env);
 void	*set_my_env(char **environ, t_env **head);
-void	my_simple_execve(t_mini_shell mini_shell, char *my_paths);
+void	my_simple_execve(t_mini_shell mini_shell);
 char	*find_cmd_path(char **paths_envp, char *cmd);
 void	simple_execution(t_mini_shell mini_shell, t_env *my_env);
 char	*get_env_path(t_env *my_env);

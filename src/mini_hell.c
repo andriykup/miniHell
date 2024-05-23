@@ -10,6 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+// remove simple executions function
+// adapt exit
+// adjust char *my_paths; from the structure ++
+// 	t_env better to be inside of t_mini_shell
+// return value of bulld in functions for echo function
+// fix empty arguments for cd function and home directory
+//  
+
 #include "../include/mini_hell.h"
 
 /*
@@ -55,8 +63,7 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 
 void multi_pipe_executions(t_mini_shell mini_shell, t_env *my_env)
 {
-	char *my_paths = get_env_path(my_env);
-	char **splitted_paths = ft_split(my_paths, ':');  // splitted_paths should be part of struct (t_mini_shell mini_shell) 
+	char **splitted_paths = ft_split(mini_shell.my_paths, ':');  // splitted_paths should be part of struct (t_mini_shell mini_shell) 
 	// split args of each command
 	// char	**cmd_args1 = ft_split(mini_shell.parsed_input[0], ' ');
 	// char	**cmd_args2 = ft_split(mini_shell.parsed_input[1], ' ');
@@ -123,17 +130,15 @@ void multi_pipe_executions(t_mini_shell mini_shell, t_env *my_env)
 		wait(NULL);
 		i++;
 	}
-
-	free(my_paths);
 }
 
 
-void my_simple_execve(t_mini_shell mini_shell, char *my_paths)
+void my_simple_execve(t_mini_shell mini_shell)
 {
 	int pid;
 	char	*cmd_path;
 	char	**cmd_args;
-	char **splitted_paths = ft_split(my_paths, ':'); // splitted_paths should be part of struct (t_mini_shell mini_shell) 
+	char **splitted_paths = ft_split(mini_shell.my_paths, ':'); // splitted_paths should be part of struct (t_mini_shell mini_shell) 
 
 	cmd_args = ft_split(mini_shell.parsed_input[0], ' ');
 	cmd_path = find_cmd_path(splitted_paths, cmd_args[0]);
@@ -175,7 +180,6 @@ void	simple_execution(t_mini_shell mini_shell, t_env *my_env)
 		printf("error in the creation of the split\n");
 		return ;
 	}
-	char *my_paths = get_env_path(my_env);
 	if(ft_strncmp(command[0], "echo", 5) == 0)
 	 	com_echo(command);
 	else if (ft_strncmp(command[0], "cd", 3) == 0)
@@ -198,9 +202,8 @@ void	simple_execution(t_mini_shell mini_shell, t_env *my_env)
 		com_exit(mini_shell, my_env);
 	}
 	else
-		my_simple_execve(mini_shell, my_paths);
+		my_simple_execve(mini_shell);
 	ft_free_2arr(command);
-	free(my_paths);
 }
 
 char	*get_env_path(t_env *my_env)

@@ -21,8 +21,11 @@ int main()
 	set_my_env(environ, &my_env);
 	mini_shell.parsed_input = NULL;
 	mini_shell.pipes = -1;
+	mini_shell.my_paths = get_env_path(my_env);
 
 	mini_hell(mini_shell, my_env);
+
+	free(mini_shell.my_paths); //need to be inside exit !!
     return (0);
 }
 
