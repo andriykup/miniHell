@@ -55,7 +55,6 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 		free(ret);
 		i++;
 	}
-	free(ret);
 	free(full_cmd);
 	return (NULL);
 }
