@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:47:42 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/13 18:54:31 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/23 14:07:31 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,6 @@ char *com_pwd(char **command)
         pwd (some chars) --> pwd: too many argument
         so by passing command we can check if (command[1] is NULL)
     */
-    if (command[1] != NULL)
-    {
-        //error management
-        printf("pwd: too many argument\n");
-        return (0);
-    }
     //pwd = malloc(sizeof(char) * PATH_MAX);
     pwd = getcwd(NULL, 0);
     if(pwd == NULL)

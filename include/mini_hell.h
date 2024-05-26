@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_hell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/14 14:43:52 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/24 12:10:47 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <linux/limits.h>
+#include <stdbool.h>
 #include <limits.h> //for mac
 
 typedef struct s_arguments
