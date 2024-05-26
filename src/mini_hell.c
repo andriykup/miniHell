@@ -40,39 +40,20 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 	free(full_cmd);
 	return (NULL);
 }
-	//execve need to work with pat (/bin/ls)
-
-void my_executions(t_mini_shell mini_shell, t_env *my_env)
-{
-	char **splitted_paths = ft_split(mini_shell.my_paths, ':');  // splitted_paths should be part of struct (t_mini_shell mini_shell) 
 	
-	int num_commands = mini_shell.pipes + 1;
-	int pipefd[2 * mini_shell.pipes];
-	//setting pipes
-	int i = 0;
-	while(i < mini_shell.pipes)
+	////////////////
+	
+	int builtin_com(t_mini_shell mini_shell, t_env *my_env, char **cmd_args)
 	{
-		pipe(pipefd + 2 * i); //why this formula??
-		i++;
-		//missing protection
-	}
-
-
-	i = 0;
-	while(i < num_commands)
-	{
-		char	**cmd_args = ft_split(mini_shell.parsed_input[i], ' ');
-		char	*cmd_path = find_cmd_path(splitted_paths, cmd_args[0]);
-
 		if (ft_strncmp(cmd_args[0], "export", 7) == 0)
 		{
 			com_export(my_env, cmd_args[1]);
-			return ;
+			return 1;
 		}
 		else if (ft_strncmp(cmd_args[0], "unset", 6) == 0)
 		{
 			com_unset(&my_env, cmd_args[1]);
-			return ;
+			return 1;
 		}
 		else if (ft_strncmp(cmd_args[0], "cd", 3) == 0)
 		{
@@ -80,7 +61,7 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 				empty_cd(my_env);
 			else
 				com_cd(cmd_args[1]);
-			return ;
+			return 1;
 		}
 		else if (ft_strncmp(cmd_args[0], "exit", 7) == 0)
 		{
@@ -88,8 +69,44 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 			ft_free_2arr(cmd_args);
 			com_exit(mini_shell, my_env);
 		}
+		return 0;
+	}
 
-		int pid = fork();
+	void create_pipes(int *pipefd, t_mini_shell mini_shell)
+	{
+		int i;
+
+		i = 0;
+		while(i < mini_shell.pipes)
+		{
+			pipe(pipefd + 2 * i);
+			i++;
+			//missing protection
+		}
+	}
+	
+
+
+	//execve need to work with pat (/bin/ls) <<-----------------
+
+void my_executions(t_mini_shell mini_shell, t_env *my_env)
+{
+	int pipefd[2 * mini_shell.pipes];
+	int pid;
+	char **splitted_paths;
+	char	**cmd_args;
+	char	*cmd_path;
+	int i;
+	
+	splitted_paths = ft_split(mini_shell.my_paths, ':');  // splitted_paths should be part of struct (t_mini_shell mini_shell) 
+	create_pipes(pipefd, mini_shell); //create pipes
+	i = 0;
+	while(i < (mini_shell.pipes + 1))
+	{
+		cmd_args = ft_split(mini_shell.parsed_input[i], ' ');
+		if(builtin_com(mini_shell, my_env, cmd_args) == 1)
+			return ;
+		pid = fork();
 		if(pid == 0)
 		{
 
@@ -100,14 +117,14 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 				//missing protection
 			}
 				//if not the last command
-			if(i != num_commands - 1) //why '-1'??
+			if(i != mini_shell.pipes) //why '-1'??
 			{
 				dup2(pipefd[i * 2 + 1], STDOUT_FILENO);
 			}
 
 			// Close all pipe file descriptors
 			int j = 0;
-			while(j < 2 * (num_commands - 1))
+			while(j < 2 * (mini_shell.pipes))
 			{
 				close(pipefd[j]); //why '-1'??
 				j++;
@@ -130,6 +147,7 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 			}
 			else
 			{
+				cmd_path = find_cmd_path(splitted_paths, cmd_args[0]);
 				if((execve(cmd_path, cmd_args, NULL)) < 0)
 				{
 					// added check for the exit input
@@ -140,19 +158,12 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 		}
 		i++;
 	}
- 
 	i = 0;
-	while(i < 2 * (num_commands - 1))
-	{
+	while(i++ < 2 * mini_shell.pipes)
 		close(pipefd[i]);
-		i++;
-	}
 	i = 0;
-	while(i < num_commands)
-	{
+	while(i++ < mini_shell.pipes + 1)
 		wait(NULL);
-		i++;
-	}
 }
 
 char	*get_env_path(t_env *my_env)
