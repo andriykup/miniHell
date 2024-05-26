@@ -46,7 +46,8 @@ typedef struct s_mini_shell
 {
 	int		pipes; // number of the pipes 
 	char	**parsed_input;
-	char *my_paths;
+	char	*my_paths;
+	char **splitted_paths;
 	t_commands *commands;
 } t_mini_shell;
 

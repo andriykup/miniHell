@@ -72,6 +72,26 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 		return 0;
 	}
 
+	int builtin_com_pipe(t_mini_shell mini_shell, t_env *my_env, char **cmd_args)
+	{
+			if (ft_strncmp(cmd_args[0], "env", 4) == 0)
+			{
+	 			com_env(cmd_args, my_env);
+				return 1;
+			}
+			else if (ft_strncmp(cmd_args[0], "pwd", 4) == 0)
+			{
+	 			com_pwd(cmd_args);
+				return 1;
+			}
+			else if(ft_strncmp(cmd_args[0], "echo", 5) == 0)
+			{
+				com_echo(cmd_args);
+				return 1;
+			}
+		return 0;
+	}
+
 	void create_pipes(int *pipefd, t_mini_shell mini_shell)
 	{
 		int i;
@@ -93,12 +113,11 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 {
 	int pipefd[2 * mini_shell.pipes];
 	int pid;
-	char **splitted_paths;
 	char	**cmd_args;
 	char	*cmd_path;
 	int i;
 	
-	splitted_paths = ft_split(mini_shell.my_paths, ':');  // splitted_paths should be part of struct (t_mini_shell mini_shell) 
+	mini_shell.splitted_paths = ft_split(mini_shell.my_paths, ':');  // splitted_paths should be part of struct (t_mini_shell mini_shell) 
 	create_pipes(pipefd, mini_shell); //create pipes
 	i = 0;
 	while(i < (mini_shell.pipes + 1))
@@ -109,45 +128,26 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 		pid = fork();
 		if(pid == 0)
 		{
-
-				//if not the first command
-			if(i != 0)
+			if(i != 0)  //if not the first command
 			{
 				dup2(pipefd[(i - 1) * 2], STDIN_FILENO);
 				//missing protection
 			}
-				//if not the last command
-			if(i != mini_shell.pipes) //why '-1'??
+			if(i != mini_shell.pipes) //if not the last command
 			{
 				dup2(pipefd[i * 2 + 1], STDOUT_FILENO);
 			}
-
-			// Close all pipe file descriptors
 			int j = 0;
-			while(j < 2 * (mini_shell.pipes))
+			while(j < 2 * (mini_shell.pipes)) // Close all pipe file descriptors
 			{
-				close(pipefd[j]); //why '-1'??
+				close(pipefd[j]);
 				j++;
 			}
-			
-			if (ft_strncmp(cmd_args[0], "env", 4) == 0)
-			{
-	 			com_env(cmd_args, my_env);
-				exit(0);
-			}
-			else if (ft_strncmp(cmd_args[0], "pwd", 4) == 0)
-			{
-	 			com_pwd(cmd_args);
-				exit(0);
-			}
-			else if(ft_strncmp(cmd_args[0], "echo", 5) == 0)
-			{
-				com_echo(cmd_args);
-				exit(0);
-			}
+			if(builtin_com_pipe(mini_shell, my_env, cmd_args) == 1)
+				exit (0);
 			else
 			{
-				cmd_path = find_cmd_path(splitted_paths, cmd_args[0]);
+				cmd_path = find_cmd_path(mini_shell.splitted_paths, cmd_args[0]);
 				if((execve(cmd_path, cmd_args, NULL)) < 0)
 				{
 					// added check for the exit input
