@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/24 12:10:47 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/05/26 13:52:49 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,10 @@
 #include <stdbool.h>
 #include <limits.h> //for mac
 
-typedef struct s_arguments
-{
-	char *arg;
-	int quotes; //0 no quotes 1 single 2 double quotes
-	struct s_arguments *next;
-}	t_arguments;
-
 typedef struct s_commands
 {
 	char *cmd;
-	t_arguments *args;
+	char **args;
 	struct s_commands *next;
 } t_commands;
 //struct for env var
@@ -88,6 +81,7 @@ void	simple_execution(t_mini_shell mini_shell, t_env *my_env);
 char	*get_env_path(t_env *my_env);
 char	*ft_strjoin(char const *s1, char const *s2);
 
+char	*ft_strdup(const char *s);
 
 // free functions
 void	free_struct(t_mini_shell mini_shell);
