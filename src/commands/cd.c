@@ -26,6 +26,18 @@ static char *st_strjoin(const char *s1, const char *s2) {
     return result;
 }
 
+void empty_cd(t_env *head)
+{
+    char *new_path;
+    t_env *temp_node;
+
+    temp_node = find_env_var(head, "USER");
+    new_path = st_strjoin("/home/", temp_node->value);
+    chdir(new_path);
+    free(new_path);
+    return ;
+}
+
 // MEM LEAKS!!!!
 char *com_cd(char *path)
 {

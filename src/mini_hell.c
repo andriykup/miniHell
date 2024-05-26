@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// remove simple executions function
-// adapt exit
+// adapt exit// remove simple executions function
+
 // adjust char *my_paths; from the structure ++
 // 	t_env better to be inside of t_mini_shell
 // return value of bulld in functions for echo function
@@ -19,18 +19,6 @@
 //  
 
 #include "../include/mini_hell.h"
-
-/*
-	if(mini_shell.pipes == 0)
-	{
-		function to check input
-	} 
-	else
-	{
-		execute pipex functions etc
-	}
-	command for each commands ! 
-*/
 
 char	*find_cmd_path(char **paths_envp, char *cmd)
 {
@@ -60,14 +48,9 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 }
 	//execve need to work with pat (/bin/ls)
 
-void multi_pipe_executions(t_mini_shell mini_shell, t_env *my_env)
+void my_executions(t_mini_shell mini_shell, t_env *my_env)
 {
 	char **splitted_paths = ft_split(mini_shell.my_paths, ':');  // splitted_paths should be part of struct (t_mini_shell mini_shell) 
-	// split args of each command
-	// char	**cmd_args1 = ft_split(mini_shell.parsed_input[0], ' ');
-	// char	**cmd_args2 = ft_split(mini_shell.parsed_input[1], ' ');
-	// char *cmd_path1 = find_cmd_path(splitted_paths, cmd_args1[0]);
-	// char *cmd_path2 = find_cmd_path(splitted_paths, cmd_args2[0]);
 	
 	int num_commands = mini_shell.pipes + 1;
 	int pipefd[2 * mini_shell.pipes];
@@ -84,6 +67,38 @@ void multi_pipe_executions(t_mini_shell mini_shell, t_env *my_env)
 	i = 0;
 	while(i < num_commands)
 	{
+		char	**cmd_args = ft_split(mini_shell.parsed_input[i], ' ');
+		char	*cmd_path = find_cmd_path(splitted_paths, cmd_args[0]);
+
+		if (ft_strncmp(cmd_args[0], "export", 7) == 0)
+		{
+			com_export(my_env, cmd_args[1]);
+			printf("\nmy build in command is executed\n");
+			return ;
+		}
+		else if (ft_strncmp(cmd_args[0], "unset", 6) == 0)
+		{
+			com_unset(&my_env, cmd_args[1]);
+			printf("\nmy build in command is executed\n");
+			return ;
+		}
+		else if (ft_strncmp(cmd_args[0], "cd", 3) == 0)
+		{
+			if(cmd_args[1] == NULL)
+				empty_cd(my_env);
+			else
+				com_cd(cmd_args[1]);
+				//if value is empty, need to go to home dir
+			printf("\nmy build in command is executed\n");
+			return ;
+		}
+		else if (ft_strncmp(cmd_args[0], "exit", 7) == 0)
+		{
+			printf("\nmy build in command is executed\n");
+			ft_free_2arr(cmd_args);
+			com_exit(mini_shell, my_env);
+		}
+
 		int pid = fork();
 		if(pid == 0)
 		{
@@ -104,21 +119,43 @@ void multi_pipe_executions(t_mini_shell mini_shell, t_env *my_env)
 			int j = 0;
 			while(j < 2 * (num_commands - 1))
 			{
-				close(pipefd[j]);
+				close(pipefd[j]); //why '-1'??
 				j++;
 			}
-			char	**cmd_args = ft_split(mini_shell.parsed_input[i], ' ');
-			char	*cmd_path = find_cmd_path(splitted_paths, cmd_args[0]);
 			
-			execve(cmd_path, cmd_args, NULL);
-			
-			//missing protection
+			if (ft_strncmp(cmd_args[0], "env", 4) == 0)
+			{
+				printf("\nmy build in command is executed |env|\n");
+	 			com_env(cmd_args, my_env);
+				exit(0);
+			}
+			else if (ft_strncmp(cmd_args[0], "pwd", 4) == 0)
+			{
+				printf("\nmy build in command is executed |pwd|\n");
+	 			com_pwd(cmd_args);
+				exit(0);
+			}
+			else if(ft_strncmp(cmd_args[0], "echo", 5) == 0)
+			{
+				com_echo(cmd_args);
+				printf("\nmy build in command is executed\n");
+				exit(0);
+			}
+			else
+			{
+				if((execve(cmd_path, cmd_args, NULL)) < 0)
+				{
+					// added check for the exit input
+					printf("minishell: command not found: %s\n", cmd_args[0]);
+					exit(0);
+				}
+			}
 		}
 		i++;
 	}
  
 	i = 0;
-	while(i < 2 * (num_commands - 1)) //why '-1'??
+	while(i < 2 * (num_commands - 1))
 	{
 		close(pipefd[i]);
 		i++;
@@ -129,80 +166,6 @@ void multi_pipe_executions(t_mini_shell mini_shell, t_env *my_env)
 		wait(NULL);
 		i++;
 	}
-}
-
-
-void my_simple_execve(t_mini_shell mini_shell)
-{
-	int pid;
-	char	*cmd_path;
-	char	**cmd_args;
-	char **splitted_paths = ft_split(mini_shell.my_paths, ':'); // splitted_paths should be part of struct (t_mini_shell mini_shell) 
-
-	cmd_args = ft_split(mini_shell.parsed_input[0], ' ');
-	cmd_path = find_cmd_path(splitted_paths, cmd_args[0]);
-
-	if (cmd_path == NULL)
-	{
-		free(cmd_args);
-		//printf("ERROR\n");
-		//exit_error("error cmd_path");
-	}
-
-	pid = fork();
-	if(pid == -1)
-		printf("error forking");
-		//exit_error
-	if(pid == 0)
-	{
-		if((execve(cmd_path, cmd_args, NULL)) < 0)
-		{
-			// added check for the exit input
-			printf("minishell: command not found: %s\n", cmd_args[0]);
-			exit(EXIT_SUCCESS);
-		}
-	}
-	wait(NULL); // not sure abou wait(), check this part better
-	ft_free_2arr(splitted_paths);
-	ft_free_2arr(cmd_args);
-	free(cmd_path);
-}
-
-void	simple_execution(t_mini_shell mini_shell, t_env *my_env)
-{
-	char **command;
-	
-	command = ft_split(mini_shell.parsed_input[0], ' ');
-	if (command == NULL)
-	{
-		//error mannaging
-		printf("error in the creation of the split\n");
-		return ;
-	}
-	if(ft_strncmp(command[0], "echo", 5) == 0)
-	 	com_echo(command);
-	else if (ft_strncmp(command[0], "cd", 3) == 0)
-	{
-		if(command[1] != NULL)
-			com_cd(command[1]);
-			//if value is empty, need to go to home dir
-	}
-	else if (ft_strncmp(command[0], "env", 4) == 0)
-	 	com_env(command, my_env);
-	else if (ft_strncmp(command[0], "unset", 6) == 0)
-		com_unset(&my_env, command[1]);
-	else if (ft_strncmp(command[0], "pwd", 4) == 0)
-	 	com_pwd(command);
-	else if (ft_strncmp(command[0], "export", 7) == 0)
-		com_export(my_env, command[1]);
-	else if (ft_strncmp(command[0], "exit", 7) == 0)
-	{
-		ft_free_2arr(command);
-		com_exit(mini_shell, my_env);
-	}
-	else
-		my_simple_execve(mini_shell);
-	ft_free_2arr(command);
 }
 
 char	*get_env_path(t_env *my_env)
@@ -221,15 +184,6 @@ char	*get_env_path(t_env *my_env)
     }
 	return (NULL);
 }
-
-void	check_pipes(t_mini_shell mini_shell, t_env *my_env)
-{
-	if (mini_shell.pipes == 0)
-		simple_execution(mini_shell, my_env);
-	else
-		multi_pipe_executions(mini_shell, my_env);
-}
-
 
 char *ft_spaceout(char *input)
 {
@@ -264,12 +218,12 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 		input = ft_spaceout(input);
 		printf("string = [%s]\n", input);
 		mini_shell.parsed_input = ft_split(input, '|');// need to adjust for min_shell
+		free(input);
 		if (mini_shell.parsed_input[0] == NULL)
 			continue;
-		free(input);
 		while (mini_shell.parsed_input[i++] != NULL)
 			mini_shell.pipes++;
-		check_pipes(mini_shell, my_env);
+		my_executions(mini_shell, my_env);
 		free_struct(mini_shell);
 	}	
 }

@@ -73,11 +73,12 @@ void ft_free_2arr(char **arr);
 int		com_echo(char **command);
 char	*com_pwd(char **command);
 char	*com_cd(char *path); 
+void empty_cd(t_env *head);
 void	com_export(t_env *head, char *new_env_var);
-void com_env(char**command, t_env *head);
-int com_unset(t_env **head, char *env);
+void	com_env(char**command, t_env *head);
+int		com_unset(t_env **head, char *env);
 size_t	ft_strlen(const char *s);
-void com_exit(t_mini_shell mini_shell, t_env *my_env);
+void	com_exit(t_mini_shell mini_shell, t_env *my_env);
 
 //util for env
 t_env	*find_env_var(t_env *head, char *env);
