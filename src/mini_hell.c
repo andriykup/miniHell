@@ -11,12 +11,8 @@
 /* ************************************************************************** */
 
 // adapt exit// remove simple executions function
-
 // adjust char *my_paths; from the structure ++
-// 	t_env better to be inside of t_mini_shell
 // return value of bulld in functions for echo function
-// fix empty arguments for cd function and home directory
-//  
 
 #include "../include/mini_hell.h"
 

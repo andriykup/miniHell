@@ -14,7 +14,6 @@
 
 // need to work for directing to the correct dirrector
 
-
 static char *st_strjoin(const char *s1, const char *s2) {
     int len1 = strlen(s1);
     int len2 = strlen(s2);
@@ -46,8 +45,6 @@ char *com_cd(char *path)
     char *full_path;
 
     pwd = getcwd(NULL, 0);
-    //pwd = malloc(sizeof(char) * PATH_MAX);
-    
     new_path = st_strjoin(pwd, "/");
     if(new_path == NULL)
     {
@@ -63,7 +60,6 @@ char *com_cd(char *path)
     }
     free(new_path);
     chdir(full_path);
-
     free(pwd);
     free(full_path);
     return (0); //do we need to return new working directory??
