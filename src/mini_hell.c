@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// adapt exit// remove simple executions function
-// adjust char *my_paths; from the structure ++
 // return value of bulld in functions for echo function
 
 #include "../include/mini_hell.h"
@@ -69,13 +67,11 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 		if (ft_strncmp(cmd_args[0], "export", 7) == 0)
 		{
 			com_export(my_env, cmd_args[1]);
-			printf("\nmy build in command is executed\n");
 			return ;
 		}
 		else if (ft_strncmp(cmd_args[0], "unset", 6) == 0)
 		{
 			com_unset(&my_env, cmd_args[1]);
-			printf("\nmy build in command is executed\n");
 			return ;
 		}
 		else if (ft_strncmp(cmd_args[0], "cd", 3) == 0)
@@ -84,13 +80,11 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 				empty_cd(my_env);
 			else
 				com_cd(cmd_args[1]);
-				//if value is empty, need to go to home dir
-			printf("\nmy build in command is executed\n");
 			return ;
 		}
 		else if (ft_strncmp(cmd_args[0], "exit", 7) == 0)
 		{
-			printf("\nmy build in command is executed\n");
+			printf("exit\n");
 			ft_free_2arr(cmd_args);
 			com_exit(mini_shell, my_env);
 		}
@@ -121,20 +115,17 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 			
 			if (ft_strncmp(cmd_args[0], "env", 4) == 0)
 			{
-				printf("\nmy build in command is executed |env|\n");
 	 			com_env(cmd_args, my_env);
 				exit(0);
 			}
 			else if (ft_strncmp(cmd_args[0], "pwd", 4) == 0)
 			{
-				printf("\nmy build in command is executed |pwd|\n");
 	 			com_pwd(cmd_args);
 				exit(0);
 			}
 			else if(ft_strncmp(cmd_args[0], "echo", 5) == 0)
 			{
 				com_echo(cmd_args);
-				printf("\nmy build in command is executed\n");
 				exit(0);
 			}
 			else
@@ -212,7 +203,6 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 		if (input[0] != '\0')
 			add_history(input);
 		input = ft_spaceout(input);
-		printf("string = [%s]\n", input);
 		mini_shell.parsed_input = ft_split(input, '|');// need to adjust for min_shell
 		free(input);
 		if (mini_shell.parsed_input[0] == NULL)

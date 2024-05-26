@@ -48,7 +48,6 @@ typedef struct s_mini_shell
 	char	**parsed_input;
 	char *my_paths;
 	t_commands *commands;
-	//t_env better to be inside of this struct
 } t_mini_shell;
 
 
