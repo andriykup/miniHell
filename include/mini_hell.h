@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_hell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/26 13:52:49 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:09:11 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <linux/limits.h>
+//#include <linux/limits.h>
 #include <stdbool.h>
 #include <limits.h> //for mac
 
@@ -80,7 +80,7 @@ char	*find_cmd_path(char **paths_envp, char *cmd);
 void	simple_execution(t_mini_shell mini_shell, t_env *my_env);
 char	*get_env_path(t_env *my_env);
 char	*ft_strjoin(char const *s1, char const *s2);
-
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s);
 
 // free functions

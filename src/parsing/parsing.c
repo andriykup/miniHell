@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 11:26:03 by aconvent          #+#    #+#             */
-/*   Updated: 2024/05/26 15:01:35 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:28:28 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char *replace_dollar_sign(char *str, t_env *env)
     while (str[i] != '\0' && str[i] != '"')
         temp[i] = str[i++];
     temp[i] = '\0';
-    res = get_env_value(temp + 1, env); // +1 to skip the $
+    res = get_env_value(temp + 1, env); 
     free(temp);
     if (res)
         return ft_strdup(res);
@@ -86,7 +86,7 @@ char *dquotes_work(char *str, t_env *env)
     res[j] = '\0';
     return res;
 }
-char   *command_quotes(char *str, t_commands *cmd, t_env *env)
+char   *command_quotes(char *str, t_env *env)
 {
     int i;
     int quotes;
@@ -120,7 +120,7 @@ char   *command_quotes(char *str, t_commands *cmd, t_env *env)
 
 
 
-t_mini_shell   *commands_args(t_mini_shell *mini_shell, t_env *env)
+t_mini_shell   *parse_commands_args(t_mini_shell *mini_shell, t_env *env)
 {
     char **temp;
     int i;
@@ -131,43 +131,6 @@ t_mini_shell   *commands_args(t_mini_shell *mini_shell, t_env *env)
     cmd = mini_shell->commands;
     while (mini_shell->parsed_input[i] != NULL)
     {
-        temp = ft_split(mini_shell->parsed_input[i], ' ');
-        cmd = malloc(sizeof(t_commands));
-        while (temp[j] != NULL)
-        {
-           cmd->args[args++] = command_quotes(temp[j], cmd, env);
-           j++;
-           args++;
-        }
-        i++;
-        args = 0;
-        j = 0;
+        
     }
-}
-void add_node(void **head, void *new_node)
-{
-    void *temp;
-
-    if (!*head)
-    {
-        *head = new_node;
-    }
-    else
-    {
-        temp = *head;
-        while (*(void **)temp)
-            temp = *(void **)temp;
-        *(void **)temp = new_node;
-    }
-}
-t_commands *create_command_node(char *cmd_str)
-{
-    t_commands *new_node;
-    new_node = malloc(sizeof(t_commands));
-    if (!new_node)
-        return NULL;
-    new_node->cmd = allocate_string(cmd_str);
-    new_node->args = NULL;
-    new_node->next = NULL;
-    return new_node;
 }
