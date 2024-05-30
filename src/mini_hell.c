@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/22 15:11:46 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:09:34 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,10 +214,7 @@ char	*get_env_path(t_env *my_env)
 
 void	check_pipes(t_mini_shell mini_shell, t_env *my_env)
 {
-	// if (mini_shell.pipes == 0)
-	// 	simple_execution(mini_shell, my_env);
-	// else
-		multi_pipe_executions(mini_shell, my_env);
+	multi_pipe_executions(mini_shell, my_env);
 }
 
 
@@ -240,6 +237,7 @@ char *ft_spaceout(char *input)
 	free(input);
 	return (res);
 }
+
 void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 {
 	int i;
@@ -252,12 +250,13 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 		if (input[0] != '\0')
 			add_history(input);
 		input = ft_spaceout(input);
-		mini_shell.parsed_input = ft_split(input, '|');// need to adjust for min_shell
+		mini_shell.parsed_input = ft_split(input, '|');
 		free(input);
 		if (mini_shell.parsed_input[0] == NULL)
 			continue;
 		while (mini_shell.parsed_input[i++] != NULL)
 			mini_shell.pipes++;
+		mini_shell.commands = command_list(mini_shell);
 		check_pipes(mini_shell, my_env);
 		free_struct(mini_shell);
 	}	

@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 11:26:03 by aconvent          #+#    #+#             */
-/*   Updated: 2024/05/27 17:28:28 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/30 13:18:54 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_hell.h"
+
+
+
+//dequoting file name but not redir in t_redir 
 
 void    quotes_out(char *dst, char *src)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:20:26 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/27 18:08:56 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/30 15:08:25 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,26 +89,6 @@ void ft_free_2arr(char **arr)
 	free(arr);
 }
 
-char	*ft_strdup(const char *s)
-{
-	char	*pnt;
-	int		i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	pnt = (char *)malloc((i + 1) * sizeof(char));
-	if (!pnt)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		pnt[i] = s[i];
-		i++;
-	}
-	pnt[i] = '\0';
-	return (pnt);
-}
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
