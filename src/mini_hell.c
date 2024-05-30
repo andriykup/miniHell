@@ -12,6 +12,13 @@
 
 // return value of bulld in functions for echo function
 
+//error after integrating ne parsing!!!
+		// exit
+		// minishell(21756,0x206003ac0) malloc: *** error for object 0x27e9cfe9c80: pointer being freed was not allocated
+		// minishell(21756,0x206003ac0) malloc: *** set a breakpoint in malloc_error_break to debug
+		// zsh: abort      ./minishell
+////
+
 #include "../include/mini_hell.h"
 
 char	*find_cmd_path(char **paths_envp, char *cmd)
