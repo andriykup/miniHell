@@ -15,19 +15,6 @@
 char *com_pwd(char **command)
 {
     char *pwd;
-<<<<<<< HEAD
-
-=======
-    
-    /*
-        checking if there is anything else beside the function name
-        example 
-        pwd --->is correct 
-        pwd (some chars) --> pwd: too many argument
-        so by passing command we can check if (command[1] is NULL)
-    */
-    //pwd = malloc(sizeof(char) * PATH_MAX);
->>>>>>> aconvent
     pwd = getcwd(NULL, 0);
     if(pwd == NULL)
         return NULL;

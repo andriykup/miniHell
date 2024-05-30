@@ -113,7 +113,8 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 {
 	int pipefd[2 * mini_shell.pipes];
 	int pid;
-	char	**cmd_args;
+	t_command *command_current = mini_shell.commands;
+	//char	**cmd_args; //delete
 	char	*cmd_path;
 	int i;
 	
@@ -122,8 +123,8 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 	i = 0;
 	while(i < (mini_shell.pipes + 1))
 	{
-		cmd_args = ft_split(mini_shell.parsed_input[i], ' ');
-		if(builtin_com(mini_shell, my_env, cmd_args) == 1)
+		//cmd_args = ft_split(mini_shell.parsed_input[i], ' '); //delete, its already part of the struct
+		if(builtin_com(mini_shell, my_env, command_current->args) == 1)
 			return ;
 		pid = fork();
 		if(pid == 0)
@@ -143,19 +144,21 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 				close(pipefd[j]);
 				j++;
 			}
-			if(builtin_com_pipe(mini_shell, my_env, cmd_args) == 1)
+			if(builtin_com_pipe(mini_shell, my_env, command_current->args) == 1)
 				exit (0);
 			else
 			{
-				cmd_path = find_cmd_path(mini_shell.splitted_paths, cmd_args[0]);
-				if((execve(cmd_path, cmd_args, NULL)) < 0)
+				cmd_path = find_cmd_path(mini_shell.splitted_paths, command_current->args[0]);
+				printf("\n\ncommand_current->args check: %s\n\n", command_current->args[0]);
+				if((execve(cmd_path, command_current->args, NULL)) < 0)
 				{
 					// added check for the exit input
-					printf("minishell: command not found: %s\n", cmd_args[0]);
+					printf("minishell: command not found: %s\n", command_current->args[0]);
 					exit(0);
 				}
 			}
 		}
+		command_current = command_current->next;
 		i++;
 	}
 	i = 0;
