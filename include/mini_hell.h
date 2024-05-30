@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_hell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/14 14:43:52 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/30 15:19:44 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,25 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <linux/limits.h>
+//#include <linux/limits.h>
+#include <stdbool.h>
 #include <limits.h> //for mac
 
-typedef struct s_arguments
-{
-	char *arg;
-	int quotes; //0 no quotes 1 single 2 double quotes
-	struct s_arguments *next;
-}	t_arguments;
+typedef struct s_redirection {
+    char *file_name;
+    char *redir;
+    struct s_redirection *next;
+    
+} t_redir;
 
-typedef struct s_commands
+typedef struct s_command
 {
-	char *cmd;
-	t_arguments *args;
-	struct s_commands *next;
-} t_commands;
+	char **args;
+    t_redir *redir;
+    bool redirected;
+    struct s_command *next;
+} t_command;
+
 //struct for env var
 
 //main struct
@@ -46,9 +49,9 @@ typedef struct s_mini_shell
 {
 	int		pipes; // number of the pipes 
 	char	**parsed_input;
-	char	*my_paths;
+	char *my_paths;
 	char **splitted_paths;
-	t_commands *commands;
+	t_command *commands;
 } t_mini_shell;
 
 
@@ -60,8 +63,14 @@ typedef struct s_env
 	struct s_env *next;
 } t_env;
 
+
+t_command *command_list(t_mini_shell mini_shell);
 void mini_hell(t_mini_shell mini_shell, t_env *my_env);
 
+
+//parsing functions 
+void add_redir_to_end(t_redir **head, t_redir *new_node);
+void print_command_list(t_command *cmd);
 //utils folder
 char	**ft_split(char const *s, char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -88,7 +97,8 @@ char	*find_cmd_path(char **paths_envp, char *cmd);
 void	simple_execution(t_mini_shell mini_shell, t_env *my_env);
 char	*get_env_path(t_env *my_env);
 char	*ft_strjoin(char const *s1, char const *s2);
-
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strdup(const char *s);
 
 // free functions
 void	free_struct(t_mini_shell mini_shell);

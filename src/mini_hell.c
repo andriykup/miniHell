@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_hell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/15 03:35:15 by amaury           ###   ########.fr       */
+/*   Updated: 2024/05/30 15:09:34 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ char *ft_spaceout(char *input)
 	free(input);
 	return (res);
 }
+
 void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 {
 	int i;
@@ -214,12 +215,13 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 		if (input[0] != '\0')
 			add_history(input);
 		input = ft_spaceout(input);
-		mini_shell.parsed_input = ft_split(input, '|');// need to adjust for min_shell
+		mini_shell.parsed_input = ft_split(input, '|');
 		free(input);
 		if (mini_shell.parsed_input[0] == NULL)
 			continue;
 		while (mini_shell.parsed_input[i++] != NULL)
 			mini_shell.pipes++;
+		mini_shell.commands = command_list(mini_shell);
 		my_executions(mini_shell, my_env);
 		free_struct(mini_shell);
 	}	

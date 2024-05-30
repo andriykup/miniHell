@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:20:26 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/12 16:26:13 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:08:25 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,30 @@ void ft_free_2arr(char **arr)
 		}
 	}
 	free(arr);
+}
+
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	char	*pnt;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	if (start >= ft_strlen(s) || len == 0)
+		return (ft_strdup(""));
+	if (len > ft_strlen(s) - start)
+		len = ft_strlen(s) - start;
+	pnt = (char *)malloc((len + 1) * sizeof(char));
+	if (!pnt)
+		return (NULL);
+	while (start < ft_strlen(s) && s[start] != '\0' && i < len)
+	{
+		pnt[i] = s[start];
+		start++;
+		i++;
+	}
+	pnt[i] = '\0';
+	return (pnt);
 }
