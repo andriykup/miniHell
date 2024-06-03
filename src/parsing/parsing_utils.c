@@ -1,38 +1,16 @@
 #include "../../include/mini_hell.h"
 
 
-t_redir *redir_init() {
-    t_redir *new_redir;
-    new_redir = malloc(sizeof(t_redir));
-    if (new_redir == NULL) {
-        // error management
-        return NULL;
-    }
-    new_redir->file_name = NULL;
-    new_redir->redir = NULL;
-    new_redir->next = NULL;
-    return new_redir;
-}
-
-t_command* init_command() {
-    t_command *new_command;
-    new_command = (t_command*)malloc(sizeof(t_command));
-    if (new_command == NULL) {
-        return NULL;
-    }
-    new_command->redir = NULL;
-    new_command->redirected = false;
-    new_command->next = NULL;
-    return new_command;
-}
-
 void skip_quotes(char *str, int *i) {
     char quote;
     quote = str[*i];
     (*i)++;
-    while (str[*i] != quote && str[*i] != '\0') {
+    while (str[*i] != quote && str[*i] != '\0') 
+    {
         (*i)++;
     }
+    if (str[*i] == quote)
+        (*i)++;
 }
 
 bool is_quotes(char c) {
@@ -63,10 +41,10 @@ char *tokenizing(char *input, int *i) {
     return res;
 }
 
-void skip_spaces(char *str, int *i) {
-    while (str[*i] == ' ' || str[*i] == '\t' ||str[*i] == '\n') {
+void skip_spaces(char *str, int *i) 
+{
+    while (str[*i] == ' '  || (str[*i] >= 9 && str[*i] <= 13))
         (*i)++;
-    }
 }
 
 t_redir *get_redir(char *str, int *i) 
@@ -78,22 +56,20 @@ t_redir *get_redir(char *str, int *i)
     redi = redir_init();
     if (str[*i] == '<')
         redi->redir = strdup("<");
-    else if (str[*i] == '>') {
-        if (str[*i + 1] == '>')
-        {
+    else if (str[(*i)++] == '>') 
+    {
+        if (str[*i] == '>')
             redi->redir = strdup(">>");
-            (*i)++;
-        } 
         else
             redi->redir = strdup(">");
     }
-    (*i)++;
     skip_spaces(str, i);
     redi->file_name = tokenizing(str, i);
     return redi;
 }
 
-void get_command(char *input, t_command **cmd) {
+void get_command(char *input, t_command **cmd) 
+{
     int j = 0;
     int i = 0;
     t_redir *redir;
@@ -101,7 +77,7 @@ void get_command(char *input, t_command **cmd) {
     if (!cmd) {
         exit(1);
     }
-    (*cmd)->args = malloc(sizeof(char *) + 10); // Allocate space for args
+    (*cmd)->args = malloc(sizeof(char *) + (ft_strlen(input) + 1 )); // Allocate space for args
     if (!(*cmd)->args) {
         // error management
         return;
@@ -109,10 +85,13 @@ void get_command(char *input, t_command **cmd) {
     while (input[i]) 
     {
         skip_spaces(input, &i);
-        if (input[i] != '<' && input[i] != '>') {
+        if (input[i] != '<' && input[i] != '>')
+        {
             (*cmd)->args[j] = tokenizing(input, &i);
             j++;
-        } else if (input[i] == '<' || input[i] == '>') {
+        }
+        else if (input[i] == '<' || input[i] == '>') 
+        {
             (*cmd)->redirected = true;
             redir = get_redir(input, &i);
             add_redir_to_end(&(*cmd)->redir, redir);
@@ -122,36 +101,6 @@ void get_command(char *input, t_command **cmd) {
     (*cmd)->args[j] = NULL;
 }
 
-void add_command_to_end(t_command **head, t_command *new_node) {
-    t_command *current;
-
-    if (head == NULL || new_node == NULL)
-        return;
-    if (*head == NULL)
-        *head = new_node;
-    else 
-    {
-        current = *head;
-        while (current->next != NULL)
-            current = current->next;
-        current->next = new_node;
-    }
-}
-
-void add_redir_to_end(t_redir **head, t_redir *new_node) {
-    t_redir *current;
-    if (head == NULL || new_node == NULL)
-        return;
-    if (*head == NULL)
-        *head = new_node;
-    else
-    {
-        current = *head;
-        while (current->next != NULL) 
-            current = current->next;
-        current->next = new_node;
-    }
-}
 
 t_command *command_list(t_mini_shell mini_shell) 
 {
@@ -169,11 +118,11 @@ t_command *command_list(t_mini_shell mini_shell)
         add_command_to_end(&cmd_head, cmd);
         i++;
     }
-   print_command_list(cmd_head);
     return cmd_head;
 }
 
-void print_redir(t_redir *redir) {
+void print_redir(t_redir *redir) 
+{
     while (redir != NULL) {
         printf("  Redirection: %s %s\n", redir->redir, redir->file_name);
         redir = redir->next;

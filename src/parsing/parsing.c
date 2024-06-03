@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 11:26:03 by aconvent          #+#    #+#             */
-/*   Updated: 2024/05/30 13:18:54 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/03 13:09:19 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,16 @@ char *replace_dollar_sign(char *str, t_env *env)
     char *temp;
     char *res;
     
+    
     temp = malloc(sizeof(char) * 100);
     if (temp == NULL)
         return (NULL);
     i = 0;
     while (str[i] != '\0' && str[i] != '"')
-        temp[i] = str[i++];
+    {
+        temp[i] = str[i];
+        i++;
+    }
     temp[i] = '\0';
     res = get_env_value(temp + 1, env); 
     free(temp);
@@ -61,23 +65,24 @@ char *replace_dollar_sign(char *str, t_env *env)
     return ft_strdup("");
 }
 
-char *dquotes_work(char *str, t_env *env)
+void dquotes_work(char *str, t_env *env) 
 {
     int i = 0;
     int j = 0;
     char *res = malloc(sizeof(char) * (ft_strlen(str) + 1));
     char *env_value;
-    
+
     if (!res)
-        return NULL;
-    while (str[i] != '\0' && str[i] != '"')
+        return;
+
+    while (str[i] != '\0' && str[i] != '"') 
     {
-        if (str[i] == '$')
+        if (str[i] == '$') 
         {
             env_value = replace_dollar_sign(&str[i], env);
-            if (env_value)
+            if (env_value) 
             {
-               strncpy(&res[j], env_value, ft_strlen(env_value));
+                strncpy(&res[j], env_value, ft_strlen(env_value));
                 j += ft_strlen(env_value);
                 while (str[i] && !isspace(str[i]) && str[i] != '"')
                     i++;
@@ -88,53 +93,64 @@ char *dquotes_work(char *str, t_env *env)
         res[j++] = str[i++];
     }
     res[j] = '\0';
-    return res;
+    strncpy(str, res, ft_strlen(res) + 1);
+    free(res);
 }
 char   *command_quotes(char *str, t_env *env)
 {
     int i;
-    int quotes;
-    int dquotes;
+    bool quotes;
+    bool dquotes;
     
-    quotes = 0;
-    dquotes = 0;
+    quotes = true;
+    dquotes = true;
     i = 0;
     while (str[i])
     {
-        if (str[i] == '\'' && dquotes)
+        if (str[i] == '\'' && dquotes == true)
         {
             quotes = !quotes;
             quotes_out(&str[i], &str[i + 1]);
         }
-        else if (str[i] == '"' && quotes)
+        else if (str[i] == '"' && quotes == true)
         {
             dquotes = !dquotes;
-            if (dquotes_work(&str[i + 1], env) == NULL)
-            {
-                //error management
-            }
+            dquotes_work(str, env);
             quotes_out(&str[i], &str[i + 1]);
         }
         i++;
     }
     if (!quotes || !dquotes)
       return (NULL);
-    return (str);
+    return (ft_strdup(str));
 }
 
 
 
-t_mini_shell   *parse_commands_args(t_mini_shell *mini_shell, t_env *env)
-{
-    char **temp;
+void parse_quotes_args(t_mini_shell mini_shell, t_env *env) {
+    t_command *current_cmd ;
+    char *processed_arg;
     int i;
-    int j;
-    int args;
-    t_commands *cmd;
     
-    cmd = mini_shell->commands;
-    while (mini_shell->parsed_input[i] != NULL)
-    {
-        
+    current_cmd = mini_shell.commands;
+    while (current_cmd) {
+        i = 0;
+        while (current_cmd->args && current_cmd->args[i]) 
+        {
+            processed_arg = command_quotes(current_cmd->args[i], env);
+            printf("the arg = %s", processed_arg);
+            if (processed_arg) 
+            {
+                free(current_cmd->args[i]); // Free the original argument
+                current_cmd->args[i] = processed_arg; // Update with the processed argument
+            } 
+            else 
+            {
+                // Handle error: unmatched quotes or other issues
+                // You can choose to set the argument to an empty string or handle it differently
+            }
+            i++;
+        }
+        current_cmd = current_cmd->next;
     }
 }

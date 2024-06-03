@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 13:48:47 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/14 20:56:50 by amaury           ###   ########.fr       */
+/*   Updated: 2024/06/03 14:39:48 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ int com_echo(char **command)
 	}
 	while (command[i] != NULL)
 	{
-		printf("%s", command[i++]);
-		if (command[i] != NULL)
+		printf("%s", command[i]);
+		if (command[i + 1] != NULL)
 			printf(" ");
+		i++;
 	}
 	if (flag == 0)
 	printf("\n");

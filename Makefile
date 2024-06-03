@@ -6,7 +6,7 @@
 #    By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/25 11:24:23 by aconvent          #+#    #+#              #
-#    Updated: 2024/05/30 14:25:39 by aconvent         ###   ########.fr        #
+#    Updated: 2024/06/03 12:51:16 by aconvent         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,9 @@ FILES = \
 			src/commands/unset \
 			src/commands/env \
 			src/commands/exit \
-			src/parsing/parsing_utils
+			src/parsing/parsing_utils\
+			src/parsing/parsing_init_add\
+			src/parsing/parsing
 
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))
 OBJS = $(addprefix $(O_DIR), $(addsuffix .o, $(FILES)))

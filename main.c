@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:04:38 by ankupins          #+#    #+#             */
-/*   Updated: 2024/05/30 15:39:01 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/03 14:41:31 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,7 @@ void free_command_struct(t_mini_shell mini_shell)
 	while (cmd)
 	{
 		while (cmd->args[i])
-		{
-			free(cmd->args[i]);
-			i++;
-		}
+			free(cmd->args[i++]);
 		if (cmd->redirected == true)
 		{
 			while(cmd->redir)
@@ -56,6 +53,7 @@ void free_command_struct(t_mini_shell mini_shell)
 		cmd = cmd->next;
 		i = 0;
 	}
+	free(cmd);
 }
 void free_struct(t_mini_shell mini_shell)
 {
