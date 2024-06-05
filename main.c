@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:04:38 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/03 14:41:31 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:58:00 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main()
 	mini_shell.parsed_input = NULL;
 	mini_shell.pipes = -1;
 	mini_shell.my_paths = get_env_path(my_env);
-	printf("the probleme is here \n"); //note from aconvent, whhat is the problem? :D
+	//printf("the probleme is here \n"); //note from aconvent, whhat is the problem? :D
 	mini_hell(mini_shell, my_env);
     return (0);
 }
@@ -39,8 +39,7 @@ void free_command_struct(t_mini_shell mini_shell)
 	cmd = mini_shell.commands;
 	while (cmd)
 	{
-		while (cmd->args[i])
-			free(cmd->args[i++]);
+		free(cmd->args);
 		if (cmd->redirected == true)
 		{
 			while(cmd->redir)

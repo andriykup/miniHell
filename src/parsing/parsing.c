@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 11:26:03 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/03 13:09:19 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:16:13 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,86 +16,7 @@
 
 //dequoting file name but not redir in t_redir 
 
-void    quotes_out(char *dst, char *src)
-{
-    int i;
 
-    i = 0;
-    while (src[i] != '\0')
-    {
-        dst[i] = src[i];
-        i++;
-    }
-    dst[i] = '\0';
-}
-
-char *get_env_value(const char *key, t_env *env)
-{
-    while (env)
-    {
-        if (ft_strncmp(env->key, key, ft_strlen(env->key)) == 0)
-            return env->value;
-        env = env->next;
-    }
-    return NULL;
-}
-
-char *replace_dollar_sign(char *str, t_env *env)
-{
-    int i;
-    int j;
-    char *temp;
-    char *res;
-    
-    
-    temp = malloc(sizeof(char) * 100);
-    if (temp == NULL)
-        return (NULL);
-    i = 0;
-    while (str[i] != '\0' && str[i] != '"')
-    {
-        temp[i] = str[i];
-        i++;
-    }
-    temp[i] = '\0';
-    res = get_env_value(temp + 1, env); 
-    free(temp);
-    if (res)
-        return ft_strdup(res);
-    return ft_strdup("");
-}
-
-void dquotes_work(char *str, t_env *env) 
-{
-    int i = 0;
-    int j = 0;
-    char *res = malloc(sizeof(char) * (ft_strlen(str) + 1));
-    char *env_value;
-
-    if (!res)
-        return;
-
-    while (str[i] != '\0' && str[i] != '"') 
-    {
-        if (str[i] == '$') 
-        {
-            env_value = replace_dollar_sign(&str[i], env);
-            if (env_value) 
-            {
-                strncpy(&res[j], env_value, ft_strlen(env_value));
-                j += ft_strlen(env_value);
-                while (str[i] && !isspace(str[i]) && str[i] != '"')
-                    i++;
-                free(env_value);
-                continue;
-            }
-        }
-        res[j++] = str[i++];
-    }
-    res[j] = '\0';
-    strncpy(str, res, ft_strlen(res) + 1);
-    free(res);
-}
 char   *command_quotes(char *str, t_env *env)
 {
     int i;
@@ -126,8 +47,28 @@ char   *command_quotes(char *str, t_env *env)
 }
 
 
+t_command *command_list(t_mini_shell mini_shell)
+{
+    t_command *cmd_head;
+    t_command *cmd;
+    int i = 0;
 
-void parse_quotes_args(t_mini_shell mini_shell, t_env *env) {
+    cmd_head = NULL;
+    while (mini_shell.parsed_input[i] != NULL) 
+    {
+        cmd = init_command();
+        if (cmd == NULL)
+            return NULL;
+        get_command(mini_shell.parsed_input[i], &cmd);
+        add_command_to_end(&cmd_head, cmd);
+        i++;
+    }
+    return cmd_head;
+}
+
+
+void parse_quotes_args(t_mini_shell mini_shell, t_env *env)
+{
     t_command *current_cmd ;
     char *processed_arg;
     int i;
@@ -138,11 +79,9 @@ void parse_quotes_args(t_mini_shell mini_shell, t_env *env) {
         while (current_cmd->args && current_cmd->args[i]) 
         {
             processed_arg = command_quotes(current_cmd->args[i], env);
-            printf("the arg = %s", processed_arg);
             if (processed_arg) 
             {
-                free(current_cmd->args[i]); // Free the original argument
-                current_cmd->args[i] = processed_arg; // Update with the processed argument
+                current_cmd->args[i] = processed_arg; 
             } 
             else 
             {

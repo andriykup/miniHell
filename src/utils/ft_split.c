@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 12:44:53 by aconvent          #+#    #+#             */
-/*   Updated: 2024/05/13 19:20:22 by amaury           ###   ########.fr       */
+/*   Updated: 2024/06/05 13:57:20 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static char	*get_word(char const *s, char c, int *idx)
 	return (word);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	int		words;
 	char	**arr;
@@ -91,6 +91,6 @@ char	**ft_split(char const *s, char c)
 		if (j > 0 && arr[j - 1] == NULL)
 			return (ft_free_memory(arr));
 	}
-	arr[j] = NULL; //added this line
+	arr[j] = NULL;
 	return (arr);
 }

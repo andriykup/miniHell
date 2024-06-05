@@ -6,13 +6,13 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:33:11 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/03 12:38:57 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:24:46 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_hell.h"
 
-t_redir *redir_init() 
+t_redir *redir_init()
 {
     t_redir *new_redir;
     new_redir = malloc(sizeof(t_redir));
@@ -26,7 +26,7 @@ t_redir *redir_init()
     return new_redir;
 }
 
-t_command* init_command() 
+t_command* init_command()
 {
     t_command *new_command;
     new_command = (t_command*)malloc(sizeof(t_command));
@@ -39,7 +39,7 @@ t_command* init_command()
     return new_command;
 }
 
-void add_command_to_end(t_command **head, t_command *new_node) 
+void add_command_to_end(t_command **head, t_command *new_node)
 {
     t_command *current;
 
@@ -56,7 +56,7 @@ void add_command_to_end(t_command **head, t_command *new_node)
     }
 }
 
-void add_redir_to_end(t_redir **head, t_redir *new_node) 
+void add_redir_to_end(t_redir **head, t_redir *new_node)
 {
     t_redir *current;
     if (head == NULL || new_node == NULL)

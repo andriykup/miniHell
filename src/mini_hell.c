@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/03 13:02:49 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/05 12:39:20 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,6 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 			else
 			{
 				cmd_path = find_cmd_path(mini_shell.splitted_paths, command_current->args[0]);
-				printf("\n\ncommand_current->args check: %s\n\n", command_current->args[0]);
 				if((execve(cmd_path, command_current->args, NULL)) < 0)
 				{
 					printf("minishell: command not found: %s\n", command_current->args[0]);
@@ -232,8 +231,9 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 			mini_shell.pipes++;
 		mini_shell.commands = command_list(mini_shell);
 		parse_quotes_args(mini_shell, my_env);
-		print_command_list(mini_shell.commands);
+		//print_command_list(mini_shell.commands);
 		my_executions(mini_shell, my_env);
+		printf("\n\n");
 		free_struct(mini_shell);
 	}	
 }

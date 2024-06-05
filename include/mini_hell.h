@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/03 13:03:13 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:20:58 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-//#include <linux/limits.h>
+#include <linux/limits.h>
 #include <stdbool.h>
-#include <limits.h> //for mac
 
 typedef struct s_redirection {
     char *file_name;
@@ -42,7 +41,6 @@ typedef struct s_command
     struct s_command *next;
 } t_command;
 
-//struct for env var
 
 //main struct
 typedef struct s_mini_shell
@@ -64,24 +62,42 @@ typedef struct s_env
 } t_env;
 
 
-t_command *command_list(t_mini_shell mini_shell);
 void mini_hell(t_mini_shell mini_shell, t_env *my_env);
 
-//parsing init_add functions
+
+// ================== PARSING =================== //
+
+	//parsing init_add 
 void add_redir_to_end(t_redir **head, t_redir *new_node);
 t_redir *redir_init();
 t_command* init_command();
 void add_command_to_end(t_command **head, t_command *new_node);
 
 
+	//parsing_commands
+void get_command(char *input, t_command **cmd);
+t_redir *get_redir(char *str, int *i);
+char *tokenizing(char *input, int *i);
+
+	//parsing_quotes
+void    quotes_out(char *dst, char *src);
+char *replace_dollar_sign(char *str, t_env *env);
+void dquotes_work(char *str, t_env *env);
+
+	//parsing_utils 
+bool is_quotes(char c);
+bool token_delimiter(char c);
+void skip_spaces(char *str, int *i);
+void skip_quotes(char *str, int *i);
+char *get_env_value(const char *key, t_env *env);
+
+	//parsing
+char   *command_quotes(char *str, t_env *env);
+t_command *command_list(t_mini_shell mini_shell);
 void parse_quotes_args(t_mini_shell mini_shell, t_env *env);
-//parsing functions
-void print_command_list(t_command *cmd);
-
-
 
 //utils folder
-char	**ft_split(char const *s, char c);
+char	**ft_split(char *s, char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s);
 void ft_free_2arr(char **arr);
