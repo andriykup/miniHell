@@ -106,9 +106,13 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 		i = 0;
 		while(i < mini_shell.pipes)
 		{
-			pipe(pipefd + 2 * i);
+			if (pipe(pipefd + 2 * i) == -1)
+        	{
+           		perror("pipe");
+				printf("\nPIPE creation Error\n"); //checker
+            	exit(EXIT_FAILURE);
+        	}
 			i++;
-			//missing protection
 		}
 	}
 	
@@ -167,11 +171,17 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 		i++;
 	}
 	i = 0;
-	while(i++ < 2 * mini_shell.pipes)
+	while(i < 2 * mini_shell.pipes)
+	{
 		close(pipefd[i]);
+		i++;
+	}
 	i = 0;
-	while(i++ < mini_shell.pipes + 1)
+	while(i < mini_shell.pipes + 1)
+	{
 		wait(NULL);
+		i++;
+	}
 }
 
 char	*get_env_path(t_env *my_env)
