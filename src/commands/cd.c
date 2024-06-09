@@ -29,10 +29,8 @@ void empty_cd(t_env *head)
 {
     char *new_path;
     t_env *temp_node;
-    // we have VAR $HOME use it instead, and make protection in case of unset
-    temp_node = find_env_var(head, "USER");
-    new_path = st_strjoin("/home/", temp_node->value);
-    chdir(new_path);
+    temp_node = find_env_var(head, "HOME");
+    chdir(temp_node->value);
     free(new_path);
     return ;
 }
