@@ -161,7 +161,7 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 			{
 				cmd_path = find_cmd_path(mini_shell.splitted_paths, command_current->args[0]);
 				if((execve(cmd_path, command_current->args, NULL)) < 0)
-				{
+				{   // neew 2d arr instead of NULL to be able to work properly
 					printf("minishell: command not found: %s\n", command_current->args[0]);
 					exit(0);
 				}
