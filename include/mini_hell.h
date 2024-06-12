@@ -47,6 +47,7 @@ typedef struct s_mini_shell
 {
 	int		pipes; // number of the pipes 
 	char	**parsed_input;
+	char	**local_environ;
 	char *my_paths;
 	char **splitted_paths;
 	t_command *commands;
@@ -101,6 +102,7 @@ char	**ft_split(char *s, char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s);
 void ft_free_2arr(char **arr);
+int	ft_length(char const *s1, char const *s2);
 
 
 // commands
@@ -115,6 +117,7 @@ size_t	ft_strlen(const char *s);
 void	com_exit(t_mini_shell mini_shell, t_env *my_env);
 
 //util for env
+void ft_local_environ(t_mini_shell mini_shell, t_env *my_env);
 t_env	*find_env_var(t_env *head, char *env);
 void	*set_my_env(char **environ, t_env **head);
 void	my_simple_execve(t_mini_shell mini_shell);

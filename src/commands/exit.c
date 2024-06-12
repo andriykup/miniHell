@@ -17,6 +17,7 @@ void com_exit(t_mini_shell mini_shell, t_env *my_env)
     //free_struct(mini_shell);
     free_my_env(my_env);
     free(mini_shell.my_paths);
+    
     //free(mini_shell.commands->args);
 	exit (0);
 }

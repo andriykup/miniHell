@@ -12,7 +12,7 @@
 
 #include "../../include/mini_hell.h"
 
-static int	ft_length(char const *s1, char const *s2)
+int	ft_length(char const *s1, char const *s2)
 {
 	int	i;
 	int	ret;

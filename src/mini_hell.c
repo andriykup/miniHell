@@ -12,13 +12,6 @@
 
 // return value of bulld in functions for echo function
 
-//error after integrating ne parsing!!!
-		// exit
-		// minishell(21756,0x206003ac0) malloc: *** error for object 0x27e9cfe9c80: pointer being freed was not allocated
-		// minishell(21756,0x206003ac0) malloc: *** set a breakpoint in malloc_error_break to debug
-		// zsh: abort      ./minishell
-////
-
 #include "../include/mini_hell.h"
 
 char	*find_cmd_path(char **paths_envp, char *cmd)
@@ -49,74 +42,141 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 }
 	
 	////////////////
+
+int builtin_com(t_mini_shell mini_shell, t_env *my_env, char **cmd_args)
+{
+	if (ft_strncmp(cmd_args[0], "export", 7) == 0)
+	{
+		com_export(my_env, cmd_args[1]);
+		return 1;
+	}
+	else if (ft_strncmp(cmd_args[0], "unset", 6) == 0)
+	{
+		com_unset(&my_env, cmd_args[1]);
+		return 1;
+	}
+	else if (ft_strncmp(cmd_args[0], "cd", 3) == 0)
+	{
+		if(cmd_args[1] == NULL)
+			empty_cd(my_env);
+		else
+			com_cd(cmd_args[1]);
+		return 1;
+	}
+	else if (ft_strncmp(cmd_args[0], "exit", 7) == 0)
+	{
+		printf("exit\n");
+		ft_free_2arr(cmd_args);
+		com_exit(mini_shell, my_env);
+	}
+	return 0;
+}
+
+int builtin_com_pipe(t_mini_shell mini_shell, t_env *my_env, char **cmd_args)
+{
+		if (ft_strncmp(cmd_args[0], "env", 4) == 0)
+		{
+			com_env(cmd_args, my_env);
+			return 1;
+		}
+		else if (ft_strncmp(cmd_args[0], "pwd", 4) == 0)
+		{
+			com_pwd(cmd_args);
+			return 1;
+		}
+		else if(ft_strncmp(cmd_args[0], "echo", 5) == 0)
+		{
+			com_echo(cmd_args);
+			return 1;
+		}
+	return 0;
+}
+
+void create_pipes(int *pipefd, t_mini_shell mini_shell)
+{
+	int i;
+
+	i = 0;
+	while(i < mini_shell.pipes)
+	{
+		if (pipe(pipefd + 2 * i) == -1)
+		{
+			perror("pipe");
+			printf("\nPIPE creation Error\n"); //checker
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+}
+
+int ft_my_env_length(t_env *my_env)
+{
+	t_env *current;
+	current = my_env;
+	int i;
+
+	i = 0;
+	while(current != NULL)
+	{
+		current = current->next;
+		i++;
+	}
+	return (i);
+}
+
+char	*ft_strjoin_environ(char const *s1, char const *s2)
+{
+	int		i;
+	int		ret_i;
+	char	*ret;
+	int		length;
+
+	length = ft_length(s1, s2);
+	ret = (char *)malloc((length + 2) * sizeof(char));
+	if (!ret)
+		return (NULL);
+	ret_i = 0;
+	while (s1[ret_i])
+	{
+		ret[ret_i] = s1[ret_i];
+		ret_i++;
+	}
+	ret[ret_i++] = '=';
+	i = 0;
+	while (s2[i])
+	{
+		ret[ret_i] = s2[i];
+		i++;
+		ret_i++;
+	}
+	ret[ret_i] = '\0';
+	return (ret);
+}
+
+void ft_local_environ(t_mini_shell mini_shell, t_env *my_env)
+{
+	//create local environ
+	// if its NULL create it, if not NULL free and create again
+	t_env *current;
+	current = my_env;
+	int i = 0;
 	
-	int builtin_com(t_mini_shell mini_shell, t_env *my_env, char **cmd_args)
-	{
-		if (ft_strncmp(cmd_args[0], "export", 7) == 0)
-		{
-			com_export(my_env, cmd_args[1]);
-			return 1;
-		}
-		else if (ft_strncmp(cmd_args[0], "unset", 6) == 0)
-		{
-			com_unset(&my_env, cmd_args[1]);
-			return 1;
-		}
-		else if (ft_strncmp(cmd_args[0], "cd", 3) == 0)
-		{
-			if(cmd_args[1] == NULL)
-				empty_cd(my_env);
-			else
-				com_cd(cmd_args[1]);
-			return 1;
-		}
-		else if (ft_strncmp(cmd_args[0], "exit", 7) == 0)
-		{
-			printf("exit\n");
-			ft_free_2arr(cmd_args);
-			com_exit(mini_shell, my_env);
-		}
-		return 0;
-	}
-
-	int builtin_com_pipe(t_mini_shell mini_shell, t_env *my_env, char **cmd_args)
-	{
-			if (ft_strncmp(cmd_args[0], "env", 4) == 0)
-			{
-	 			com_env(cmd_args, my_env);
-				return 1;
-			}
-			else if (ft_strncmp(cmd_args[0], "pwd", 4) == 0)
-			{
-	 			com_pwd(cmd_args);
-				return 1;
-			}
-			else if(ft_strncmp(cmd_args[0], "echo", 5) == 0)
-			{
-				com_echo(cmd_args);
-				return 1;
-			}
-		return 0;
-	}
-
-	void create_pipes(int *pipefd, t_mini_shell mini_shell)
-	{
-		int i;
-
-		i = 0;
-		while(i < mini_shell.pipes)
-		{
-			if (pipe(pipefd + 2 * i) == -1)
-        	{
-           		perror("pipe");
-				printf("\nPIPE creation Error\n"); //checker
-            	exit(EXIT_FAILURE);
-        	}
-			i++;
-		}
-	}
+	int my_env_length = ft_my_env_length(my_env);
+	mini_shell.local_environ = malloc(sizeof(char *) * (my_env_length + 1));
+	mini_shell.local_environ[i] = ft_strjoin_environ(my_env->key, my_env->value);
+	printf("\nmini_shell.local_environ[i] = %s\n", mini_shell.local_environ[i]);
+	//check for the mini_shell.local_environ[i], create whil loop to create all variables
 	
-
+	
+	
+	// while(current != NULL)
+	// {
+	// 	mini_shell.local_environ[i] = ft_strjoin(my_env->key, my_env->value);
+	// 	i++;
+	// 	my_env = my_env->next;
+	// }
+	mini_shell.local_environ = NULL;
+}
 
 	//execve need to work with pat (/bin/ls) <<-----------------
 
@@ -125,16 +185,15 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 	int pipefd[2 * mini_shell.pipes];
 	int pid;
 	t_command *command_current = mini_shell.commands;
-	//char	**cmd_args; //delete
 	char	*cmd_path;
 	int i;
 	
 	mini_shell.splitted_paths = ft_split(mini_shell.my_paths, ':');  // splitted_paths should be part of struct (t_mini_shell mini_shell) 
 	create_pipes(pipefd, mini_shell); //create pipes
 	i = 0;
+	ft_local_environ(mini_shell, my_env);
 	while(i < (mini_shell.pipes + 1))
 	{
-		//cmd_args = ft_split(mini_shell.parsed_input[i], ' '); //delete, its already part of the struct
 		if(builtin_com(mini_shell, my_env, command_current->args) == 1)
 			return ;
 		pid = fork();
@@ -182,6 +241,7 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 		wait(NULL);
 		i++;
 	}
+	//need to free ->   	mini_shell.local_environ   !!!!!!!!
 }
 
 char	*get_env_path(t_env *my_env)

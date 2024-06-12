@@ -20,6 +20,7 @@ int main()
  	my_env = NULL;
 	set_my_env(environ, &my_env);
 	mini_shell.parsed_input = NULL;
+	mini_shell.local_environ = NULL;
 	mini_shell.pipes = -1;
 	mini_shell.my_paths = get_env_path(my_env);
 	//printf("the probleme is here \n"); //note from aconvent, whhat is the problem? :D
