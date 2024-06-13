@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankupins <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 17:59:25 by ankupins          #+#    #+#             */
-/*   Updated: 2024/04/25 17:59:29 by ankupins         ###   ########.fr       */
+/*   Updated: 2024/06/13 15:55:59 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ void error(int error_code, t_mini_shell mini_shell)
     if(error_code == -1)
     {
         printf("Error: command not found\n");
-        free_struct(mini_shell);
+        free_struct(&mini_shell);
         exit(EXIT_FAILURE);
     }
     else if(error_code == -2)
     {
         printf("Error: invalid arguments\n");
-        free_struct(mini_shell);
+        free_struct(&mini_shell);
         exit(EXIT_FAILURE);
     }
 }

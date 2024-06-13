@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:33:11 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/05 13:24:46 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:07:15 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ t_command* init_command()
 {
     t_command *new_command;
     new_command = (t_command*)malloc(sizeof(t_command));
-    if (new_command == NULL) {
+    if (new_command == NULL) 
+    {
         return NULL;
     }
     new_command->redir = NULL;

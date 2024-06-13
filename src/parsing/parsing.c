@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 11:26:03 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/05 13:16:13 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:13:24 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ char   *command_quotes(char *str, t_env *env)
     
     quotes = true;
     dquotes = true;
-    i = 0;
-    while (str[i])
+    i = -1;
+    while (str[++i])
     {
         if (str[i] == '\'' && dquotes == true)
         {
@@ -39,27 +39,29 @@ char   *command_quotes(char *str, t_env *env)
             dquotes_work(str, env);
             quotes_out(&str[i], &str[i + 1]);
         }
-        i++;
     }
     if (!quotes || !dquotes)
-      return (NULL);
+    {
+        return (ft_strdup(""));
+    }
+    str[i] = '\0';
     return (ft_strdup(str));
 }
 
 
-t_command *command_list(t_mini_shell mini_shell)
+t_command *command_list(t_mini_shell *mini_shell)
 {
     t_command *cmd_head;
     t_command *cmd;
     int i = 0;
 
     cmd_head = NULL;
-    while (mini_shell.parsed_input[i] != NULL) 
+    while (mini_shell->parsed_input[i] != NULL) 
     {
         cmd = init_command();
         if (cmd == NULL)
             return NULL;
-        get_command(mini_shell.parsed_input[i], &cmd);
+        get_command(mini_shell->parsed_input[i], &cmd);
         add_command_to_end(&cmd_head, cmd);
         i++;
     }
@@ -67,29 +69,29 @@ t_command *command_list(t_mini_shell mini_shell)
 }
 
 
-void parse_quotes_args(t_mini_shell mini_shell, t_env *env)
+void parse_quotes_args(t_mini_shell *mini_shell, t_env *env)
 {
     t_command *current_cmd ;
     char *processed_arg;
     int i;
     
-    current_cmd = mini_shell.commands;
-    while (current_cmd) {
+    current_cmd = mini_shell->commands;
+    while (current_cmd) 
+    {
         i = 0;
         while (current_cmd->args && current_cmd->args[i]) 
         {
-            processed_arg = command_quotes(current_cmd->args[i], env);
+            processed_arg = ft_strdup(command_quotes(current_cmd->args[i], env));
             if (processed_arg) 
             {
-                current_cmd->args[i] = processed_arg; 
-            } 
-            else 
-            {
-                // Handle error: unmatched quotes or other issues
-                // You can choose to set the argument to an empty string or handle it differently
+                free(current_cmd->args[i]);
+                current_cmd->args[i] = NULL;
+                current_cmd->args[i] = ft_strdup(processed_arg);
+                free(processed_arg);
             }
             i++;
         }
         current_cmd = current_cmd->next;
     }
 }
+

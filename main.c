@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:04:38 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/05 13:58:00 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/13 15:59:57 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,20 @@ int main()
 	mini_shell.pipes = -1;
 	mini_shell.my_paths = get_env_path(my_env);
 	//printf("the probleme is here \n"); //note from aconvent, whhat is the problem? :D
-	mini_hell(mini_shell, my_env);
+	mini_hell(&mini_shell, my_env);
     return (0);
 }
 
 // extra functions
 
-void free_command_struct(t_mini_shell mini_shell)
+void free_command_struct(t_mini_shell *mini_shell)
 {
 	int i;
 
 	i = 0;
 	t_command *cmd;
 	
-	cmd = mini_shell.commands;
+	cmd = mini_shell->commands;
 	while (cmd)
 	{
 		free(cmd->args);
@@ -54,22 +54,22 @@ void free_command_struct(t_mini_shell mini_shell)
 	}
 	free(cmd);
 }
-void free_struct(t_mini_shell mini_shell)
+void free_struct(t_mini_shell *mini_shell)
 {
 	int i;
 	i = 0;
-	if (mini_shell.parsed_input)
+	if (mini_shell->parsed_input)
 	{
-		while (mini_shell.parsed_input[i] != NULL)
+		while (mini_shell->parsed_input[i] != NULL)
 		{
-			free(mini_shell.parsed_input[i]);
-			mini_shell.parsed_input[i] = NULL;
+			free(mini_shell->parsed_input[i]);
+			mini_shell->parsed_input[i] = NULL;
 			i++;
 		}
-		free(mini_shell.parsed_input[i]);
-		mini_shell.parsed_input[i] = NULL;
-		free(mini_shell.parsed_input);
-		mini_shell.parsed_input = NULL;
+		free(mini_shell->parsed_input[i]);
+		mini_shell->parsed_input[i] = NULL;
+		free(mini_shell->parsed_input);
+		mini_shell->parsed_input = NULL;
 		free_command_struct(mini_shell);
 	}
 }

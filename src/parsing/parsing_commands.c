@@ -6,13 +6,13 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:44:16 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/05 13:09:04 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/13 15:26:33 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_hell.h"
 
-
+ 
 char *tokenizing(char *input, int *i)
 {
     int saved;
@@ -27,6 +27,7 @@ char *tokenizing(char *input, int *i)
             (*i)++;
     }
     res = ft_substr(input, saved, (*i - saved));
+    printf("the res = %s\n",res);
     if (!res) 
     {
         // error management
@@ -61,18 +62,17 @@ void get_command(char *input, t_command **cmd)
     int i = 0;
     t_redir *redir;
 
-    (*cmd)->args = malloc(sizeof(char *) * (ft_strlen(input))); 
+    (*cmd)->args = malloc(sizeof(char *) * (ft_strlen(input) + 1)); 
     if (!(*cmd)->args)
         return;
     while (input[i]) 
     {
         skip_spaces(input, &i);
-        if (input[i] != '<' && input[i] != '>')
+        if (input[i] != '<' && input[i] != '>' && input[i] != '\0')
         {
-            (*cmd)->args[j] = tokenizing(input, &i);
-            j++;
+            (*cmd)->args[j++] = tokenizing(input, &i);
         }
-        else if (input[i] == '<' || input[i] == '>') 
+        else if ((input[i] == '<' || input[i] == '>') && input[i] != '\0')
         {
             (*cmd)->redirected = true;
             redir = get_redir(input, &i);

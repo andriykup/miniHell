@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/05 13:20:58 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/13 15:20:57 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_env
 } t_env;
 
 
-void mini_hell(t_mini_shell mini_shell, t_env *my_env);
+void mini_hell(t_mini_shell *mini_shell, t_env *my_env);
 
 
 // ================== PARSING =================== //
@@ -72,8 +72,8 @@ void add_redir_to_end(t_redir **head, t_redir *new_node);
 t_redir *redir_init();
 t_command* init_command();
 void add_command_to_end(t_command **head, t_command *new_node);
-
-
+char *ft_first_char_slash(char *str);
+bool ft_isspace(char c);
 	//parsing_commands
 void get_command(char *input, t_command **cmd);
 t_redir *get_redir(char *str, int *i);
@@ -93,8 +93,8 @@ char *get_env_value(const char *key, t_env *env);
 
 	//parsing
 char   *command_quotes(char *str, t_env *env);
-t_command *command_list(t_mini_shell mini_shell);
-void parse_quotes_args(t_mini_shell mini_shell, t_env *env);
+t_command *command_list(t_mini_shell *mini_shell);
+void parse_quotes_args(t_mini_shell *mini_shell, t_env *env);
 
 //utils folder
 char	**ft_split(char *s, char c);
@@ -126,7 +126,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s);
 
 // free functions
-void	free_struct(t_mini_shell mini_shell);
+void	free_struct(t_mini_shell *mini_shell);
 void free_my_env(t_env *head);
 
 // error handling functions

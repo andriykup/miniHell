@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:47:40 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/05 13:14:07 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:47:49 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,14 @@ bool is_quotes(char c)
     return (c == '\'' || c == '\"');
 }
 
+bool ft_isspace(char c)
+{
+    return(c == ' ' || c == '\t' || c == '\n' );
+}
+
 bool token_delimiter(char c)
 {
-    return (c == ' ' || c == '\t' || c == '\n' || c == '<' || c == '>');
+    return (ft_isspace(c) || c == '<' || c == '>');
 }
 
 void skip_spaces(char *str, int *i)
@@ -29,16 +34,13 @@ void skip_spaces(char *str, int *i)
         (*i)++;
 }
 
+
 void skip_quotes(char *str, int *i)
 {
     char quote;
     quote = str[*i];
     (*i)++;
     while (str[*i] != quote && str[*i] != '\0') 
-    {
-        (*i)++;
-    }
-    if (str[*i] == quote)
         (*i)++;
 }
 
@@ -46,8 +48,8 @@ char *get_env_value(const char *key, t_env *env)
 {
     while (env)
     {
-        if (ft_strncmp(env->key, key, ft_strlen(env->key)) == 0)
-            return env->value;
+        if (ft_strncmp(env->key, key, ft_strlen(key)) == 0)
+            return (ft_strdup(env->value));
         env = env->next;
     }
     return NULL;
