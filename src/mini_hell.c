@@ -183,8 +183,6 @@ void ft_local_environ(t_mini_shell *mini_shell, t_env *my_env)
 	mini_shell->local_environ[i] = NULL;
 }
 
-	//execve need to work with pat (/bin/ls) <<-----------------
-
 void my_executions(t_mini_shell mini_shell, t_env *my_env)
 {
 	int pipefd[2 * mini_shell.pipes];
@@ -206,12 +204,19 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 		{
 			if(i != 0)  //if not the first command
 			{
-				dup2(pipefd[(i - 1) * 2], STDIN_FILENO);
-				//missing protection
+				if(dup2(pipefd[(i - 1) * 2], STDIN_FILENO) == -1)
+				{
+					perror("dup2 failuer");//can be used?????
+					exit(EXIT_FAILURE);
+				}
 			}
 			if(i != mini_shell.pipes) //if not the last command
 			{
-				dup2(pipefd[i * 2 + 1], STDOUT_FILENO);
+				if(dup2(pipefd[i * 2 + 1], STDOUT_FILENO) == -1)
+				{
+					perror("dup2 failuer");//can be used?????
+					exit(EXIT_FAILURE);
+				}
 			}
 			int j = 0;
 			while(j < 2 * (mini_shell.pipes)) // Close all pipe file descriptors
@@ -223,6 +228,7 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 				exit (0);
 			else
 			{
+				//execve need to work with pat (/bin/ls) <<----------------- find_cmd_path() need to be adjusted for that
 				cmd_path = find_cmd_path(mini_shell.splitted_paths, command_current->args[0]);
 				if((execve(cmd_path, command_current->args, mini_shell.local_environ)) < 0)
 				{
@@ -306,9 +312,10 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 			mini_shell.pipes++;
 		mini_shell.commands = command_list(mini_shell);
 		parse_quotes_args(mini_shell, my_env);
-		//print_command_list(mini_shell.commands);
+		//
+		printf("\n%s\n", mini_shell.parsed_input[0]);
+		//
 		my_executions(mini_shell, my_env);
-		printf("\n\n");
 		free_struct(mini_shell);
 	}	
 }
