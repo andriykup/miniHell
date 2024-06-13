@@ -176,18 +176,20 @@ void ft_local_environ(t_mini_shell *mini_shell, t_env *my_env)
 	// if its NULL create it, if not NULL free and create again
 	t_env *current;
 	current = my_env;
-	int i = 0;
+	int my_env_length;
+	int i;
 	
-	int my_env_length = ft_my_env_length(my_env);
+	i = 0;
+	if(mini_shell->local_environ != NULL)
+	{
+		printf("test\n\n");
+		ft_free_2arr(mini_shell->local_environ);
+	}
+	my_env_length = ft_my_env_length(my_env);
 	mini_shell->local_environ = malloc(sizeof(char *) * (my_env_length + 1));
-
 	while(current)
 	{
-
-		// if(current->key != NULL)
-		// 	printf("%s\n", current->key);
 		mini_shell->local_environ[i] = ft_strjoin_environ(current->key, current->value);
-		//printf("%s\n", mini_shell.local_environ[i]);
 		i++;
 		current = current->next;
 	}
@@ -217,7 +219,7 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 			{
 				if(dup2(pipefd[(i - 1) * 2], STDIN_FILENO) == -1)
 				{
-					perror("dup2 failuer");//can be used?????
+					perror("dup2 failuer");
 					exit(EXIT_FAILURE);
 				}
 			}
@@ -225,7 +227,7 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 			{
 				if(dup2(pipefd[i * 2 + 1], STDOUT_FILENO) == -1)
 				{
-					perror("dup2 failuer");//can be used?????
+					perror("dup2 failuer");
 					exit(EXIT_FAILURE);
 				}
 			}
@@ -239,7 +241,6 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 				exit (0);
 			else
 			{
-				//execve need to work with pat (/bin/ls) <<----------------- find_cmd_path() need to be adjusted for that
 				cmd_path = find_cmd_path(mini_shell.splitted_paths, command_current->args[0]);
 				if((execve(cmd_path, command_current->args, mini_shell.local_environ)) < 0)
 				{
@@ -323,9 +324,6 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 			mini_shell.pipes++;
 		mini_shell.commands = command_list(mini_shell);
 		parse_quotes_args(mini_shell, my_env);
-		//
-		printf("\n%s\n", mini_shell.parsed_input[0]);
-		//
 		my_executions(mini_shell, my_env);
 		free_struct(mini_shell);
 	}	
