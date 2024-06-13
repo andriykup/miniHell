@@ -117,7 +117,7 @@ size_t	ft_strlen(const char *s);
 void	com_exit(t_mini_shell mini_shell, t_env *my_env);
 
 //util for env
-void ft_local_environ(t_mini_shell mini_shell, t_env *my_env);
+void ft_local_environ(t_mini_shell *mini_shell, t_env *my_env);
 t_env	*find_env_var(t_env *head, char *env);
 void	*set_my_env(char **environ, t_env **head);
 void	my_simple_execve(t_mini_shell mini_shell);

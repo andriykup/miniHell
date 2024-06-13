@@ -136,24 +136,30 @@ char	*ft_strjoin_environ(char const *s1, char const *s2)
 	if (!ret)
 		return (NULL);
 	ret_i = 0;
-	while (s1[ret_i])
+	if(s1 != NULL)
 	{
-		ret[ret_i] = s1[ret_i];
-		ret_i++;
+		while (s1[ret_i])
+		{
+			ret[ret_i] = s1[ret_i];
+			ret_i++;
+		}
 	}
 	ret[ret_i++] = '=';
 	i = 0;
-	while (s2[i])
+	if(s2 != NULL)
 	{
-		ret[ret_i] = s2[i];
-		i++;
-		ret_i++;
+		while (s2[i])
+		{
+			ret[ret_i] = s2[i];
+			i++;
+			ret_i++;
+		}
 	}
 	ret[ret_i] = '\0';
 	return (ret);
 }
 
-void ft_local_environ(t_mini_shell mini_shell, t_env *my_env)
+void ft_local_environ(t_mini_shell *mini_shell, t_env *my_env)
 {
 	//create local environ
 	// if its NULL create it, if not NULL free and create again
@@ -162,20 +168,19 @@ void ft_local_environ(t_mini_shell mini_shell, t_env *my_env)
 	int i = 0;
 	
 	int my_env_length = ft_my_env_length(my_env);
-	mini_shell.local_environ = malloc(sizeof(char *) * (my_env_length + 1));
-	mini_shell.local_environ[i] = ft_strjoin_environ(my_env->key, my_env->value);
-	printf("\nmini_shell.local_environ[i] = %s\n", mini_shell.local_environ[i]);
-	//check for the mini_shell.local_environ[i], create whil loop to create all variables
-	
-	
-	
-	// while(current != NULL)
-	// {
-	// 	mini_shell.local_environ[i] = ft_strjoin(my_env->key, my_env->value);
-	// 	i++;
-	// 	my_env = my_env->next;
-	// }
-	mini_shell.local_environ = NULL;
+	mini_shell->local_environ = malloc(sizeof(char *) * (my_env_length + 1));
+
+	while(current)
+	{
+
+		// if(current->key != NULL)
+		// 	printf("%s\n", current->key);
+		mini_shell->local_environ[i] = ft_strjoin_environ(current->key, current->value);
+		//printf("%s\n", mini_shell.local_environ[i]);
+		i++;
+		current = current->next;
+	}
+	mini_shell->local_environ[i] = NULL;
 }
 
 	//execve need to work with pat (/bin/ls) <<-----------------
@@ -191,7 +196,7 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 	mini_shell.splitted_paths = ft_split(mini_shell.my_paths, ':');  // splitted_paths should be part of struct (t_mini_shell mini_shell) 
 	create_pipes(pipefd, mini_shell); //create pipes
 	i = 0;
-	ft_local_environ(mini_shell, my_env);
+	ft_local_environ(&mini_shell, my_env);
 	while(i < (mini_shell.pipes + 1))
 	{
 		if(builtin_com(mini_shell, my_env, command_current->args) == 1)
@@ -219,8 +224,8 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 			else
 			{
 				cmd_path = find_cmd_path(mini_shell.splitted_paths, command_current->args[0]);
-				if((execve(cmd_path, command_current->args, NULL)) < 0)
-				{   // neew 2d arr instead of NULL to be able to work properly
+				if((execve(cmd_path, command_current->args, mini_shell.local_environ)) < 0)
+				{
 					printf("minishell: command not found: %s\n", command_current->args[0]);
 					exit(0);
 				}
@@ -241,7 +246,7 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 		wait(NULL);
 		i++;
 	}
-	//need to free ->   	mini_shell.local_environ   !!!!!!!!
+	ft_free_2arr(mini_shell.local_environ);
 }
 
 char	*get_env_path(t_env *my_env)

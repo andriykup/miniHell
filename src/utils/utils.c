@@ -19,16 +19,22 @@ int	ft_length(char const *s1, char const *s2)
 
 	i = 0;
 	ret = 0;
-	while (s1[i])
+	if(s1 != NULL)
 	{
-		i++;
-		ret++;
+		while (s1[i])
+		{
+			i++;
+			ret++;
+		}
 	}
 	i = 0;
-	while (s2[i])
+	if(s2 != NULL)
 	{
-		i++;
-		ret++;
+		while (s2[i])
+		{
+			i++;
+			ret++;
+		}
 	}
 	return (ret);
 }
