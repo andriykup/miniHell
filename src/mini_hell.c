@@ -20,8 +20,21 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 	char	*full_cmd;
 	char	*ret;
 
-	if (paths_envp == NULL)
+	ret = NULL;
+	full_cmd = NULL;
+	if (paths_envp == NULL || cmd == NULL)
 		return (NULL);
+	if(cmd[0] == '/')
+	{
+		if (access(cmd, X_OK) != -1)
+		{
+			ret = ft_strdup(cmd);
+			if(ret == NULL)
+				return NULL;
+		return (ret);
+		}
+		return (NULL);
+	}
 	full_cmd = ft_strjoin("/", cmd);
 	if (full_cmd == NULL)
 		return (NULL);
@@ -40,8 +53,6 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 	free(full_cmd);
 	return (NULL);
 }
-	
-	////////////////
 
 int builtin_com(t_mini_shell mini_shell, t_env *my_env, char **cmd_args)
 {
@@ -258,17 +269,17 @@ void my_executions(t_mini_shell mini_shell, t_env *my_env)
 char	*get_env_path(t_env *my_env)
 {
 	char *env_path;
-    t_env *current = my_env;
+	t_env *current = my_env;
 
-    while (current != NULL)
-    {
-        if(ft_strncmp(current->key, "PATH", 4) == 0)
+	while (current != NULL)
+	{
+		if(ft_strncmp(current->key, "PATH", 4) == 0)
 		{
 			env_path = ft_strdup(current->value);
 			return (env_path);
 		}
-        current = current->next;
-    }
+		current = current->next;
+	}
 	return (NULL);
 }
 
