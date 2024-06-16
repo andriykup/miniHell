@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:44:08 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/13 16:14:54 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/16 15:36:37 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void    quotes_out(char *dst, char *src)
     int i;
 
     i = 0;
+    if (src[i] == '\0')
+    {
+        dst[i] = '\0';
+        return;
+    }
     while (src[i] != '\0')
     {
         dst[i] = src[i];
@@ -98,7 +103,7 @@ void dquotes_work(char *str, t_env *env)
             env_value = replace_dollar_sign(&str[i], env);
             if (env_value) 
             {
-                strncpy(&res[j], env_value, strlen(env_value));
+                strncpy(&res[j], env_value, strlen(env_value) + 1);
                 j += strlen(env_value);
                 while (str[i] && !isspace(str[i]) && str[i] != '"')
                     i++;

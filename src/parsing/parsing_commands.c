@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:44:16 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/13 15:26:33 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/16 15:34:14 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,13 @@ void get_command(char *input, t_command **cmd)
         skip_spaces(input, &i);
         if (input[i] != '<' && input[i] != '>' && input[i] != '\0')
         {
-            (*cmd)->args[j++] = tokenizing(input, &i);
+            (*cmd)->args[j] = tokenizing(input, &i);
+            if ( (*cmd)->args[j] == NULL)
+            {
+                printf("NO MEM\n");
+                exit(0);
+            }
+            j++;
         }
         else if ((input[i] == '<' || input[i] == '>') && input[i] != '\0')
         {
