@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:47:40 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/16 15:29:21 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:03:31 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void skip_quotes(char *str, int *i)
     (*i)++;
     while (str[*i] != quote && str[*i] != '\0') 
         (*i)++;
-    if(str[*i] == quote && str[*i+ 1])
+    if(str[*i] == quote)
         (*i)++;
 }
 

@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 11:26:03 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/16 15:32:10 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:00:56 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ t_command *command_list(t_mini_shell *mini_shell)
 }
 
 
-void parse_quotes_args(t_mini_shell *mini_shell, t_env *env)
+void parse_quotes_args(t_mini_shell **mini_shell, t_env *env)
 {
     t_command *current_cmd ;
     char *processed_arg;
     int i;
     
-    current_cmd = mini_shell->commands;
+    current_cmd = (*mini_shell)->commands;
     while (current_cmd) 
     {
         i = 0;

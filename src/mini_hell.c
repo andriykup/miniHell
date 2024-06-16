@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/16 15:22:39 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:36:21 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,10 +240,10 @@ void mini_hell(t_mini_shell *mini_shell, t_env *my_env)
 		while (mini_shell->parsed_input[i++] != NULL)
 			mini_shell->pipes++;
 		mini_shell->commands = command_list(mini_shell);
-		parse_quotes_args(mini_shell, my_env);
+		parse_quotes_args(&mini_shell, my_env);
 		my_executions(mini_shell, my_env);
 		printf("\n\n");
-		free_struct(mini_shell);
+		//free_struct(mini_shell);
 	}	
 }
 

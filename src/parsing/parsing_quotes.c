@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:44:08 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/16 15:36:37 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:21:21 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char *replace_dollar_sign(char *str, t_env *env)
     res = get_env_value(temp , env);
     free(temp);
     if (res)
-        return ft_strdup(res);
+        return res;
     return ft_strdup("");
 }
 
@@ -73,9 +73,9 @@ size_t calculate_total_length(char *str, t_env *env)
             env_value = replace_dollar_sign(&str[i], env);
             if (env_value) 
             {
-                total_length += ft_strlen(env_value);
+                total_length += ft_strlen(env_value) ;
                 free(env_value);
-                while (str[i] && !isspace(str[i]) && str[i] != '"')
+                while (str[i] && !ft_isspace(str[i]) && str[i] != '"')
                     i++;
                 continue;
             }
@@ -95,7 +95,7 @@ void dquotes_work(char *str, t_env *env)
 
     if (!res)
         return;
-    res[0] = '\0';
+    printf("str = %s\n", str);
     while (str[i] != '\0' && str[i] != '"') 
     {
         if (str[i] == '$') 
@@ -103,15 +103,32 @@ void dquotes_work(char *str, t_env *env)
             env_value = replace_dollar_sign(&str[i], env);
             if (env_value) 
             {
-                strncpy(&res[j], env_value, strlen(env_value) + 1);
+                ft_strncpy(&res[j], env_value, ft_strlen(env_value));
                 j += strlen(env_value);
-                while (str[i] && !isspace(str[i]) && str[i] != '"')
+                while (str[i] && !ft_isspace(str[i]) && str[i] != '"')
+                {
                     i++;
+                }
+                continue;
             }
         }
         res[j++] = str[i++];
     }
     res[j] = '\0';
-    strncpy(str, res, total_length);
-    str[total_length] = '\0';
+    ft_strncpy(str, res, total_length);
+}
+
+
+void ft_strncpy(char *dest, char *src, unsigned int n)
+{
+	int i;
+
+	i = 0;
+
+	while (src[i] && i <= n)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i++] = '\0';
 }
