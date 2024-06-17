@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:04:38 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/16 16:36:03 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:59:45 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,23 @@ int main()
 
 // extra functions
 
-void free_command_struct(t_mini_shell *mini_shell)
+void free_command_struct(t_mini_shell **mini_shell)
 {
 	int i;
 
 	i = 0;
 	t_command *cmd;
 	
-	cmd = mini_shell->commands;
+	cmd = (*mini_shell)->commands;
 	while (cmd)
 	{
+		while (cmd->args[i])
+		{
+			free(cmd->args[i]);
+			cmd->args[i++] = NULL;
+		}
 		free(cmd->args);
+		cmd->args = NULL;
 		if (cmd->redirected == true)
 		{
 			while(cmd->redir)

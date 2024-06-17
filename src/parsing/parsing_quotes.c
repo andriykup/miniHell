@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:44:08 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/16 16:21:21 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:50:32 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ size_t calculate_total_length(char *str, t_env *env)
             env_value = replace_dollar_sign(&str[i], env);
             if (env_value) 
             {
-                total_length += ft_strlen(env_value) ;
+                total_length += ft_strlen(env_value);
                 free(env_value);
                 while (str[i] && !ft_isspace(str[i]) && str[i] != '"')
                     i++;
@@ -109,7 +109,7 @@ void dquotes_work(char *str, t_env *env)
                 {
                     i++;
                 }
-                continue;
+                free(env_value);
             }
         }
         res[j++] = str[i++];

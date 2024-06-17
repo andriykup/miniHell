@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/16 16:35:44 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:55:28 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ char	*ft_strdup(const char *s);
 // free functions
 void	free_struct(t_mini_shell *mini_shell);
 void free_my_env(t_env *head);
-
+void free_command_struct(t_mini_shell **mini_shell);
 // error handling functions
 void	error(int error_code, t_mini_shell mini_shell);
 

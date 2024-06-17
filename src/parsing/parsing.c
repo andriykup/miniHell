@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 11:26:03 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/16 16:00:56 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:06:51 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ char   *command_quotes(char *str, t_env *env)
         else if (str[i] == '"' && quotes == true)
         {
             dquotes = !dquotes;
-            dquotes_work(str, env);
+            printf("the string are src = %s \t dst = %s", &str[i], &str[i + 1]);
             quotes_out(&str[i], &str[i + 1]);
+            dquotes_work(str, env);
         }
     }
     if (!quotes || !dquotes)
@@ -67,8 +68,17 @@ t_command *command_list(t_mini_shell *mini_shell)
     }
     return cmd_head;
 }
+void    print_args(t_command command)
+{
+    int i;
 
-
+    i = 0;
+    while (command.args[i])
+    {
+        printf("\nthe arg[%i] = %s\n", i , command.args[i]);
+        i++;
+    }
+}
 void parse_quotes_args(t_mini_shell **mini_shell, t_env *env)
 {
     t_command *current_cmd ;
@@ -79,17 +89,18 @@ void parse_quotes_args(t_mini_shell **mini_shell, t_env *env)
     while (current_cmd) 
     {
         i = 0;
-        while (current_cmd->args && current_cmd->args[i]) 
+        print_args(*current_cmd);
+        while (current_cmd->args[i]) 
         {
-            processed_arg = ft_strdup(command_quotes(current_cmd->args[i], env));
+            printf("arf befor process = %s i = %i\n", current_cmd->args[i], i);
+            processed_arg = command_quotes(current_cmd->args[i], env);
+            printf("\nproc _ arg = %s \ti = %i\n", processed_arg, i);
             if (processed_arg) 
             {
-                free(current_cmd->args[i]);
-                current_cmd->args[i] = NULL;
                 current_cmd->args[i] = ft_strdup(processed_arg);
                 free(processed_arg);
+                i++;
             }
-            i++;
         }
         current_cmd = current_cmd->next;
     }
