@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:04:38 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/17 14:59:45 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/20 11:20:22 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void free_command_struct(t_mini_shell **mini_shell)
 	}
 	free(cmd);
 }
+
 void free_struct(t_mini_shell *mini_shell)
 {
 	int i;
@@ -71,6 +72,6 @@ void free_struct(t_mini_shell *mini_shell)
 			free(mini_shell->parsed_input[i]);
 			i++;
 		}
-		//free_command_struct(mini_shell);
+		free_command_struct(&mini_shell);
 	}
 }

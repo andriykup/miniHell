@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:33:11 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/16 16:01:39 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/20 11:56:55 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_command* init_command()
     {
         return NULL;
     }
+    new_command->args = NULL;
     new_command->redir = NULL;
     new_command->redirected = false;
     new_command->next = NULL;

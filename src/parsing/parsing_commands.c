@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:44:16 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/17 13:41:10 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:15:50 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,12 @@ char *tokenizing(char *input, int *i)
     saved = *i;
     while (input[*i] && !token_delimiter(input[*i])) 
     {
-        printf("the strimg is %s i = %i\n", &input[*i], *i);
         if (is_quotes(input[*i]))
             skip_quotes(input, i);
         else
             (*i)++;
     }
     res = ft_substr(input, saved, (*i - saved));
-    printf("\n\nres = %s\n",res);
     if (!res) 
     {
         // error management
@@ -72,7 +70,6 @@ void get_command(char *input, t_command **cmd)
         if (input[i] != '<' && input[i] != '>' && input[i] != '\0')
         {
             (*cmd)->args[j] = tokenizing(input, &i);
-            printf("\nthe  arg = %s\t i =%i\n",(*cmd)->args[j], j);
             if ( (*cmd)->args[j] == NULL)
             {
                 printf("NO MEM\n");

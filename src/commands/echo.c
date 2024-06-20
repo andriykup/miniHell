@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 13:48:47 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/03 14:39:48 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/20 11:13:54 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,22 @@ int com_echo(char **command)
 {
 	int flag;
 	int i;
+	int j;
 	
 	flag = 0;
 	i = 1;
+	j = 2;
+	
 	if (command[i] == NULL)
 	{
 		printf("\n");
 		return(0);
 	}
-	while (ft_strncmp(command[i], "-n", 3) == 0)
+	if (ft_strncmp(command[i], "-n", 2) == 0)
 	{
 		flag = 1;
-		if (command[++i] == NULL)
-			return(0);
+		while(command[i][j] == 'n' )
+			j++;
 	}
 	while (command[i] != NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/17 14:54:54 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/20 11:52:29 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ void mini_hell(t_mini_shell *mini_shell, t_env *my_env)
 		printf("\nu\n");
 		parse_quotes_args(&mini_shell, my_env);
 		my_executions(mini_shell, my_env);
-		free_command_struct(&mini_shell);
+	//	free_struct(mini_shell);
 	}	
 }
 
