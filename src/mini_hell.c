@@ -324,6 +324,7 @@ void mini_hell(t_mini_shell mini_shell, t_env *my_env)
 			mini_shell.pipes++;
 		mini_shell.commands = command_list(mini_shell);
 		parse_quotes_args(mini_shell, my_env);
+
 		my_executions(mini_shell, my_env);
 		free_struct(mini_shell);
 	}	
