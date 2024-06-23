@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:33:11 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/20 11:56:55 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/23 14:32:28 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,18 @@ void add_command_to_end(t_command **head, t_command *new_node)
 
     if (head == NULL || new_node == NULL)
         return;
-    if (*head == NULL)
+    if (!*head )
+    {
+        printf("new node = %s\n", new_node->args[0]);
         *head = new_node;
+    }
     else 
     {
         current = *head;
         while (current->next != NULL)
             current = current->next;
         current->next = new_node;
+        printf("new node = %s\n", (*head)->next->args[0]);
     }
 }
 

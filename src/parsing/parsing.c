@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 11:26:03 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/20 11:58:26 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/23 14:54:14 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,40 @@ char   *command_quotes(char *str, t_env *env)
         else if (str[i] == '"' && quotes == true)
         {
             dquotes = !dquotes;
-            printf("the string are src = %s \t dst = %s", &str[i], &str[i + 1]);
             quotes_out(&str[i], &str[i + 1]);
             dquotes_work(str, env);
         }
     }
     if (!quotes || !dquotes)
     {
+        printf("i entered here\n");
         return (ft_strdup(""));
     }
     str[i] = '\0';
     return (ft_strdup(str));
+}
+
+void    print_args(t_command command)
+{
+    int i;
+
+    i = 0;
+    while (command.args[i])
+    {
+        printf("\nthe arg[%i] = %s\n", i , command.args[i]);
+        i++;
+    }
+}
+void    print_struct(t_command *command)
+{
+    while (command != NULL)
+    {
+        print_args(*command);
+        if (command->next != NULL)
+        printf("---------nex command--------\n\n");
+        command = command->next;       
+    }
+    printf("________________________--\n");
 }
 
 
@@ -66,45 +89,36 @@ t_command *command_list(t_mini_shell *mini_shell)
         add_command_to_end(&cmd_head, cmd);
         i++;
     }
+    print_struct(cmd_head);
     return cmd_head;
 }
-void    print_args(t_command command)
+void parse_quotes_args(t_command *current_cmd, t_env *env)
 {
-    int i;
-
-    i = 0;
-    while (command.args[i])
-    {
-        printf("\nthe arg[%i] = %s\n", i , command.args[i]);
-        i++;
-    }
-}
-void parse_quotes_args(t_mini_shell **mini_shell, t_env *env)
-{
-    t_command *current_cmd ;
     char *processed_arg;
     int i;
     
-    current_cmd = (*mini_shell)->commands;
-    while (current_cmd) 
+    while (current_cmd != NULL) 
     {
         i = 0;
-        print_args(*current_cmd);
-        while (current_cmd->args[i]) 
+        printf("i am here\n");
+        while (current_cmd->args[++i] != NULL) 
         {
-            printf("arf befor process = %s i = %i\n", current_cmd->args[i], i);
-            processed_arg = ft_strdup(command_quotes(current_cmd->args[i], env));
-            printf("\nproc _ arg = %s \ti = %i\n", processed_arg, i);
+            processed_arg = command_quotes(current_cmd->args[i], env);
             if (processed_arg) 
             {
-                current_cmd->args[i] = ft_strdup(processed_arg);
-                printf("args = %s ind = %i\n", current_cmd->args[i], i);
-                if (processed_arg)
-                 free(processed_arg);
+               (current_cmd)->args[i] = ft_strdup(processed_arg);
+                printf("(*current_cmd)->args[i] = %s\n",current_cmd->args[i]);
+                free(processed_arg);
                 i++;
             }
         }
+        if (current_cmd->next == NULL)
+        {
+            printf("\ni got here dszzz\n");
+            return;
+        }
         current_cmd = current_cmd->next;
+        printf("i got here \n ");
     }
 }
 

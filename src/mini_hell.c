@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/20 11:52:29 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/23 14:52:43 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 
 	int builtin_com_pipe(t_mini_shell mini_shell, t_env *my_env, char **cmd_args)
 	{
+		printf("i got here (echo)\n");
 			if (ft_strncmp(cmd_args[0], "env", 4) == 0)
 			{
 	 			com_env(cmd_args, my_env);
@@ -120,22 +121,24 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 
 	//execve need to work with pat (/bin/ls) <<-----------------
 
-void my_executions(t_mini_shell *mini_shell, t_env *my_env)
+void my_executions(t_mini_shell **mini_shell, t_env *my_env)
 {
-	int pipefd[2 * mini_shell->pipes];
+	int pipefd[2 * (*mini_shell)->pipes];
 	int pid;
-	t_command *command_current = mini_shell->commands;
+	t_command *command_current = (*mini_shell)->commands;
 	//char	**cmd_args; //delete
 	char	*cmd_path;
 	int i;
 	
-	mini_shell->splitted_paths = ft_split(mini_shell->my_paths, ':');  // splitted_paths should be part of struct (t_mini_shell mini_shell) 
-	create_pipes(pipefd, *mini_shell); //create pipes
+	printf("here i am with (%s)\n", command_current->args[0]);
+	(*mini_shell)->splitted_paths = ft_split((*mini_shell)->my_paths, ':');  // splitted_paths should be part of struct (t_mini_shell mini_shell) 
+	create_pipes(pipefd, **mini_shell); //create pipes
 	i = 0;
-	while(i < (mini_shell->pipes + 1))
+	while(i < ((*mini_shell)->pipes + 1) && command_current != NULL)
 	{
+		printf("here i am with (%s)\n", command_current->args[0]);
 		//cmd_args = ft_split(mini_shell.parsed_input[i], ' '); //delete, its already part of the struct
-		if(builtin_com(*mini_shell, my_env, command_current->args) == 1)
+		if(builtin_com(**mini_shell, my_env, command_current->args) == 1)
 			return ;
 		pid = fork();
 		if(pid == 0)
@@ -145,21 +148,21 @@ void my_executions(t_mini_shell *mini_shell, t_env *my_env)
 				dup2(pipefd[(i - 1) * 2], STDIN_FILENO);
 				//missing protection
 			}
-			if(i != mini_shell->pipes) //if not the last command
+			if(i != (*mini_shell)->pipes) //if not the last command
 			{
 				dup2(pipefd[i * 2 + 1], STDOUT_FILENO);
 			}
 			int j = 0;
-			while(j < 2 * (mini_shell->pipes)) // Close all pipe file descriptors
+			while(j < 2 * ((*mini_shell)->pipes)) // Close all pipe file descriptors
 			{
 				close(pipefd[j]);
 				j++;
 			}
-			if(builtin_com_pipe(*mini_shell, my_env, command_current->args) == 1)
+			if(builtin_com_pipe(**mini_shell, my_env, command_current->args) == 1)
 				exit (0);
 			else
 			{
-				cmd_path = find_cmd_path(mini_shell->splitted_paths, command_current->args[0]);
+				cmd_path = find_cmd_path((*mini_shell)->splitted_paths, command_current->args[0]);
 				if((execve(cmd_path, command_current->args, NULL)) < 0)
 				{
 					printf("minishell: command not found: %s\n", command_current->args[0]);
@@ -168,16 +171,17 @@ void my_executions(t_mini_shell *mini_shell, t_env *my_env)
 			}
 		}
 		command_current = command_current->next;
+		printf("i could do tgat\n");
 		i++;
 	}
 	i = 0;
-	while(i < 2 * mini_shell->pipes)
+	while(i < 2 * (*mini_shell)->pipes)
 	{
 		close(pipefd[i]);
 		i++;
 	}
 	i = 0;
-	while(i < mini_shell->pipes + 1)
+	while(i < (*mini_shell)->pipes + 1)
 	{
 		wait(NULL);
 		i++;
@@ -240,9 +244,10 @@ void mini_hell(t_mini_shell *mini_shell, t_env *my_env)
 		while (mini_shell->parsed_input[i++] != NULL)
 			mini_shell->pipes++;
 		mini_shell->commands = command_list(mini_shell);
-		printf("\nu\n");
-		parse_quotes_args(&mini_shell, my_env);
-		my_executions(mini_shell, my_env);
+		printf("\nprintint the command list\n");
+		print_struct(mini_shell->commands);
+		parse_quotes_args(mini_shell->commands, my_env);
+		my_executions(&mini_shell, my_env);
 	//	free_struct(mini_shell);
 	}	
 }

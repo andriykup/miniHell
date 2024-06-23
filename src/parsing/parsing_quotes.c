@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:44:08 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/20 11:56:32 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/23 14:35:48 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,11 @@ void dquotes_work(char *str, t_env *env)
 {
     int i = 0, j = 0;
     size_t total_length = calculate_total_length(str, env);
-    char *res = malloc(sizeof(char) * (total_length + 1));
+    char *res = malloc(sizeof(char) * (total_length + 10));
     char *env_value;
 
     if (!res)
         return;
-    printf("str = %s\n", str);
     while (str[i] != '\0' && str[i] != '"') 
     {
         if (str[i] == '$') 
@@ -105,16 +104,17 @@ void dquotes_work(char *str, t_env *env)
             {
                 ft_strncpy(&res[j], env_value, ft_strlen(env_value));
                 j += strlen(env_value);
+                free(env_value);
                 while (str[i] && !ft_isspace(str[i]) && str[i] != '"')
                 {
                     i++;
                 }
-                free(env_value);
             }
         }
         res[j++] = str[i++];
     }
     res[j] = '\0';
+    res = ft_strdup(res);
     ft_strncpy(str, res, total_length);
 }
 

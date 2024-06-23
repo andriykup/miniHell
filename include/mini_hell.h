@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/20 11:52:18 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/23 14:52:49 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_env
 
 void mini_hell(t_mini_shell *mini_shell, t_env *my_env);
 
-
+void    print_struct(t_command *command);
 // ================== PARSING =================== //
 
 	//parsing init_add 
@@ -72,7 +72,6 @@ void add_redir_to_end(t_redir **head, t_redir *new_node);
 t_redir *redir_init();
 t_command* init_command();
 void add_command_to_end(t_command **head, t_command *new_node);
-char *ft_first_char_slash(char *str);
 bool ft_isspace(char c);
 	//parsing_commands
 void get_command(char *input, t_command **cmd);
@@ -94,7 +93,7 @@ char *get_env_value(const char *key, t_env *env);
 	//parsing
 char   *command_quotes(char *str, t_env *env);
 t_command *command_list(t_mini_shell *mini_shell);
-void parse_quotes_args(t_mini_shell **mini_shell, t_env *env);
+void parse_quotes_args(t_command *current_cmd, t_env *env);
 
 //utils folder
 char	**ft_split(char *s, char c);
