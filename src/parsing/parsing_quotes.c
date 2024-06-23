@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:44:08 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/23 14:35:48 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/23 15:14:54 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void    quotes_out(char *dst, char *src)
     int i;
 
     i = 0;
+    printf("src = %s\t dest = %s\n", src, dst);
     if (src[i] == '\0')
     {
         dst[i] = '\0';
@@ -66,7 +67,7 @@ size_t calculate_total_length(char *str, t_env *env)
     int i = 0;
 
     // todo check
-    while (str[i] != '\0' && str[i] != '"') 
+    while (str[i] != '\0') 
     {
         if (str[i] == '$') 
         {
@@ -95,7 +96,7 @@ void dquotes_work(char *str, t_env *env)
 
     if (!res)
         return;
-    while (str[i] != '\0' && str[i] != '"') 
+    while (str[i] != '\0') 
     {
         if (str[i] == '$') 
         {
@@ -116,6 +117,7 @@ void dquotes_work(char *str, t_env *env)
     res[j] = '\0';
     res = ft_strdup(res);
     ft_strncpy(str, res, total_length);
+   // printf("str after work = %s\n", str);
 }
 
 

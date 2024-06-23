@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/23 14:52:49 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/23 15:22:32 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_command* init_command();
 void add_command_to_end(t_command **head, t_command *new_node);
 bool ft_isspace(char c);
 	//parsing_commands
-void get_command(char *input, t_command **cmd);
+void get_command(char *input, t_command **cmd, t_env *env);
 t_redir *get_redir(char *str, int *i);
 char *tokenizing(char *input, int *i);
 
@@ -92,7 +92,7 @@ char *get_env_value(const char *key, t_env *env);
 
 	//parsing
 char   *command_quotes(char *str, t_env *env);
-t_command *command_list(t_mini_shell *mini_shell);
+t_command *command_list(t_mini_shell *mini_shell, t_env *env);
 void parse_quotes_args(t_command *current_cmd, t_env *env);
 
 //utils folder
@@ -101,7 +101,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s);
 void ft_free_2arr(char **arr);
 void ft_strncpy(char *dest, char *src, unsigned int n);
-
+size_t calculate_total_length(char *str, t_env *env);
 // commands
 int		com_echo(char **command);
 char	*com_pwd(char **command);

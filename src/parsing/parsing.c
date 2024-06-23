@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 11:26:03 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/23 14:54:14 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/23 15:22:00 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@ char   *command_quotes(char *str, t_env *env)
         {
             dquotes = !dquotes;
             quotes_out(&str[i], &str[i + 1]);
+            printf("str = %s\t %i\n", &str[i], i);
             dquotes_work(str, env);
         }
     }
+    printf("str = %s\t %i\n", str, dquotes);
     if (!quotes || !dquotes)
     {
         printf("i entered here\n");
@@ -73,7 +75,7 @@ void    print_struct(t_command *command)
 }
 
 
-t_command *command_list(t_mini_shell *mini_shell)
+t_command *command_list(t_mini_shell *mini_shell, t_env *env)
 {
     t_command *cmd_head;
     t_command *cmd;
@@ -85,7 +87,7 @@ t_command *command_list(t_mini_shell *mini_shell)
         cmd = init_command();
         if (cmd == NULL)
             return NULL;
-        get_command(mini_shell->parsed_input[i], &cmd);
+        get_command(mini_shell->parsed_input[i], &cmd, env);
         add_command_to_end(&cmd_head, cmd);
         i++;
     }
@@ -99,7 +101,7 @@ void parse_quotes_args(t_command *current_cmd, t_env *env)
     
     while (current_cmd != NULL) 
     {
-        i = 0;
+        i = -1;
         printf("i am here\n");
         while (current_cmd->args[++i] != NULL) 
         {
@@ -107,9 +109,8 @@ void parse_quotes_args(t_command *current_cmd, t_env *env)
             if (processed_arg) 
             {
                (current_cmd)->args[i] = ft_strdup(processed_arg);
-                printf("(*current_cmd)->args[i] = %s\n",current_cmd->args[i]);
+               //printf("(*current_cmd)->args[i] = %s\n",current_cmd->args[i]);
                 free(processed_arg);
-                i++;
             }
         }
         if (current_cmd->next == NULL)

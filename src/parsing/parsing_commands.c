@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:44:16 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/23 14:30:58 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/23 15:26:32 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,12 @@ t_redir *get_redir(char *str, int *i)
     return redi;
 }
 
-void get_command(char *input, t_command **cmd)
+void get_command(char *input, t_command **cmd, t_env *env)
 {
     int j = 0;
     int i = 0;
     t_redir *redir;
+    char *temp;
 
     (*cmd)->args = malloc(sizeof(char *) * (1000)); 
     if (!(*cmd)->args)
@@ -69,12 +70,14 @@ void get_command(char *input, t_command **cmd)
         skip_spaces(input, &i);
         if (input[i] != '<' && input[i] != '>' && input[i] != '\0')
         {
-            (*cmd)->args[j] = tokenizing(input, &i);
+            temp = tokenizing(input, &i);
+            (*cmd)->args[j] = malloc(sizeof(char) * (calculate_total_length(temp, env)+ 1 ));
+            (*cmd)->args[j] = ft_strdup(temp);
             if ( (*cmd)->args[j] == NULL)
             {
                 exit(0);
             }
-
+            free(temp);
             j++;
         }
         else if ((input[i] == '<' || input[i] == '>') && input[i] != '\0')
