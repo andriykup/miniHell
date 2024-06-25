@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 11:26:03 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/25 12:51:54 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:54:59 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char   *command_quotes(char *str, t_env *env)
         }
     }
     if ( quotation == 0)
-     dquotes_work(str, env);
+        dquotes_work(str, env);
     if (!quotes || !dquotes)
         return (ft_strdup(""));
     return (ft_strdup(str));
