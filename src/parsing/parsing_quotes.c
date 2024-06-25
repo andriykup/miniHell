@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:44:08 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/23 15:14:54 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:54:03 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void    quotes_out(char *dst, char *src)
     int i;
 
     i = 0;
-    printf("src = %s\t dest = %s\n", src, dst);
     if (src[i] == '\0')
     {
         dst[i] = '\0';
@@ -60,9 +59,9 @@ char *replace_dollar_sign(char *str, t_env *env)
     return ft_strdup("");
 }
 
-size_t calculate_total_length(char *str, t_env *env)
+int calculate_total_length(char *str, t_env *env)
 {
-    size_t total_length = 0;
+    int total_length = 0;
     char *env_value;
     int i = 0;
 
@@ -117,7 +116,6 @@ void dquotes_work(char *str, t_env *env)
     res[j] = '\0';
     res = ft_strdup(res);
     ft_strncpy(str, res, total_length);
-   // printf("str after work = %s\n", str);
 }
 
 

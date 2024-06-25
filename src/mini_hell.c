@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/23 15:22:20 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:53:24 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 
 	int builtin_com_pipe(t_mini_shell mini_shell, t_env *my_env, char **cmd_args)
 	{
-		printf("i got here (echo)\n");
 			if (ft_strncmp(cmd_args[0], "env", 4) == 0)
 			{
 	 			com_env(cmd_args, my_env);
@@ -130,13 +129,11 @@ void my_executions(t_mini_shell **mini_shell, t_env *my_env)
 	char	*cmd_path;
 	int i;
 	
-	printf("here i am with (%s)\n", command_current->args[0]);
 	(*mini_shell)->splitted_paths = ft_split((*mini_shell)->my_paths, ':');  // splitted_paths should be part of struct (t_mini_shell mini_shell) 
 	create_pipes(pipefd, **mini_shell); //create pipes
 	i = 0;
 	while(i < ((*mini_shell)->pipes + 1) && command_current != NULL)
 	{
-		printf("here i am with (%s)\n", command_current->args[0]);
 		//cmd_args = ft_split(mini_shell.parsed_input[i], ' '); //delete, its already part of the struct
 		if(builtin_com(**mini_shell, my_env, command_current->args) == 1)
 			return ;
@@ -171,7 +168,6 @@ void my_executions(t_mini_shell **mini_shell, t_env *my_env)
 			}
 		}
 		command_current = command_current->next;
-		printf("i could do tgat\n");
 		i++;
 	}
 	i = 0;
@@ -244,8 +240,6 @@ void mini_hell(t_mini_shell *mini_shell, t_env *my_env)
 		while (mini_shell->parsed_input[i++] != NULL)
 			mini_shell->pipes++;
 		mini_shell->commands = command_list(mini_shell, my_env);
-		printf("\nprintint the command list\n");
-		print_struct(mini_shell->commands);
 		parse_quotes_args(mini_shell->commands, my_env);
 		my_executions(&mini_shell, my_env);
 	//	free_struct(mini_shell);

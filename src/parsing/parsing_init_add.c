@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:33:11 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/23 14:32:28 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:51:44 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_redir *redir_init()
         return NULL;
     }
     new_redir->file_name = NULL;
+    new_redir->delimiter = NULL;
     new_redir->redir = NULL;
     new_redir->next = NULL;
     return new_redir;
@@ -49,7 +50,6 @@ void add_command_to_end(t_command **head, t_command *new_node)
         return;
     if (!*head )
     {
-        printf("new node = %s\n", new_node->args[0]);
         *head = new_node;
     }
     else 
@@ -58,7 +58,6 @@ void add_command_to_end(t_command **head, t_command *new_node)
         while (current->next != NULL)
             current = current->next;
         current->next = new_node;
-        printf("new node = %s\n", (*head)->next->args[0]);
     }
 }
 

@@ -6,12 +6,12 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:09:31 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/23 15:22:32 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/25 09:47:46 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINI_HELL_H
-#define MINI_HELL_H
+# define MINI_HELL_H
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -28,6 +28,7 @@
 
 typedef struct s_redirection {
     char *file_name;
+	char *delimiter;
     char *redir;
     struct s_redirection *next;
     
@@ -64,7 +65,7 @@ typedef struct s_env
 
 void mini_hell(t_mini_shell *mini_shell, t_env *my_env);
 
-void    print_struct(t_command *command);
+
 // ================== PARSING =================== //
 
 	//parsing init_add 
@@ -101,7 +102,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s);
 void ft_free_2arr(char **arr);
 void ft_strncpy(char *dest, char *src, unsigned int n);
-size_t calculate_total_length(char *str, t_env *env);
+int calculate_total_length(char *str, t_env *env);
 // commands
 int		com_echo(char **command);
 char	*com_pwd(char **command);
