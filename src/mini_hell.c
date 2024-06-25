@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:19:53 by ankupins          #+#    #+#             */
-/*   Updated: 2024/06/25 13:10:45 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:54:00 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ char	*find_cmd_path(char **paths_envp, char *cmd)
 
 	int builtin_com_pipe(t_mini_shell mini_shell, t_env *my_env, char **cmd_args)
 	{
+		printf("\n\n args 0 = %s", cmd_args[0]);
+		printf("\n\n args 1 = %s", cmd_args[1]);
+		
 			if (ft_strncmp(cmd_args[0], "env", 4) == 0)
 			{
 	 			com_env(cmd_args, my_env);
@@ -241,6 +244,8 @@ void mini_hell(t_mini_shell *mini_shell, t_env *my_env)
 			mini_shell->pipes++;
 		mini_shell->commands = command_list(mini_shell, my_env);
 		parse_quotes_args(mini_shell->commands, my_env);
+		printf("\n\n arg 0 = %s\n\n", mini_shell->commands->args[0]);
+		printf("\n\n arg 1 = %s\n\n", mini_shell->commands->args[1]);
 		my_executions(&mini_shell, my_env);
 	//	free_struct(mini_shell);
 	}	

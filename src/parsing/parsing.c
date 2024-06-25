@@ -6,7 +6,7 @@
 /*   By: aconvent <aconvent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 11:26:03 by aconvent          #+#    #+#             */
-/*   Updated: 2024/06/25 12:54:59 by aconvent         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:01:21 by aconvent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ char   *command_quotes(char *str, t_env *env)
         }
     }
     if ( quotation == 0)
-        dquotes_work(str, env);
+     dquotes_work(str, env);
+    printf("\n\n\n the result = %s\n", str);
     if (!quotes || !dquotes)
         return (ft_strdup(""));
     return (ft_strdup(str));
@@ -82,11 +83,12 @@ void parse_quotes_args(t_command *current_cmd, t_env *env)
         while (current_cmd->args[++i] != NULL) 
         {
             processed_arg = command_quotes(current_cmd->args[i], env);
+            printf("\tthe processed arg = %s\n",processed_arg);
             if (processed_arg) 
             {
                current_cmd->args[i] = ft_strdup(processed_arg);
+               printf("\n\n\t\tthe arg = %s\n\n",current_cmd->args[i]);
                 free(processed_arg);
-                processed_arg = NULL;
             }
         }
         if (current_cmd->next == NULL)
