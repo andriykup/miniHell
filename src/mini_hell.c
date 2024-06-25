@@ -75,7 +75,9 @@ int builtin_com(t_mini_shell mini_shell, t_env *my_env, char **cmd_args)
 		return 1;
 	}
 	else if (ft_strncmp(cmd_args[0], "exit", 7) == 0)
-	{
+	{   //if exit is the first command, next one is no executed, should execute it!!!
+		if(mini_shell.pipes != 0)
+			return(1);
 		printf("exit\n");
 		ft_free_2arr(cmd_args);
 		com_exit(mini_shell, my_env);
